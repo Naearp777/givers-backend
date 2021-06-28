@@ -1,3 +1,4 @@
+from rest_framework.fields import EmailField
 from .serializers import UserSerializer
 from .models import User
 from rest_framework import status
@@ -29,6 +30,9 @@ def registerUser(request):
             organization=data['organization'],
             admin=data['admin']
         )
+        user=User.objects.get(email=data['email'])
+        user.images=request.FILES.get('image')
+        user.save()
         serializer=UserSerializer(user,many=False)
         return Response(serializer.data)
     except:
