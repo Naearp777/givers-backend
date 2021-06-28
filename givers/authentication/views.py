@@ -16,7 +16,7 @@ from rest_framework import generics
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 # Create your views here.
-
+'''
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
@@ -26,7 +26,7 @@ def auth_view(request, format=None):
         'auth': str(request.auth),  # None
     }
     return Response(content)
-
+'''
 
 
 @api_view(['GET'])
