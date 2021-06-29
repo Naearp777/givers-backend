@@ -37,8 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'customuser',
+    'customuser.apps.CustomuserConfig',
     'rest_framework',
+    'events.apps.EventsConfig',
+    
 ]
 
 AUTH_USER_MODEL = 'customuser.User'

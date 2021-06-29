@@ -1,4 +1,3 @@
-from rest_framework.fields import EmailField
 from .serializers import UserSerializer
 from .models import User
 from rest_framework import status
@@ -19,6 +18,7 @@ def registerUser(request):
             email=data['email'],
             full_name=data['full_name'],
             last_login=data['last_login'],
+            username=data['username'],
             address=data['address'],
             phone=data['phone'],
             facebook=data['facebook'],
