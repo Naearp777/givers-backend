@@ -55,18 +55,24 @@ def registerUser(request):
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-    @classmethod
-    def get_token(cls, user):
-        token = super().get_token(user)
-
+    #@classmethod
+    #def get_token(cls, user):
+    #   token = super().get_token(user)
+    
+    #Validation ....next topic 
+    def validate(self,attrs):
+        data=super().validate(attrs)
+        serializer=UserSerializerWithToken(self.user).data
+        for k, v in serializer.items():
+            data[k]=v
+        return data
         # Add custom claims
         #token['name'] = user.name
         # ...
-
-        return token
-
+    
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
+    
 
 
 @api_view(['GET'])
