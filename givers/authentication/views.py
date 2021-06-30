@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 
-from django.contrib.auth.models import User
+from customuser.models import User
 from django.contrib.auth.hashers import make_password
 
 from rest_framework import status
@@ -60,7 +60,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token = super().get_token(user)
 
         # Add custom claims
-        token['name'] = user.name
+        #token['name'] = user.name
         # ...
 
         return token
