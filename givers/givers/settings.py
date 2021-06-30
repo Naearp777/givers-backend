@@ -42,6 +42,11 @@ REST_FRAMEWORK = {
     ]
 }
 
+
+REST_AUTH_SERIALIZERS = {
+    'PASSWORD_RESET_SERIALIZER': 
+        'authentication.serializers.PasswordResetSerializer',
+}
 #JWT_Tokens
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=15),
