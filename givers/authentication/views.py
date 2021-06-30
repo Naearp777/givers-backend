@@ -15,6 +15,8 @@ from rest_framework import generics
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+
+
 # Create your views here.
 '''
 @api_view(['GET'])
@@ -76,15 +78,17 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 
 @api_view(['GET'])
-@permission_classes([IsAdminUser])
+#@permission_classes([IsAdminUser])
 def getUsers(request):
     users=User.objects.all()
     serializer=UserSerializer(users,many=True)
     return Response(serializer.data)
 
-@api_view(['GET'])
+
 class ChangePasswordView(generics.UpdateAPIView):
-  
+    """
+    An endpoint for changing password.
+    """
     serializer_class = ChangePasswordSerializer
     model = User
     permission_classes = (IsAuthenticated,)

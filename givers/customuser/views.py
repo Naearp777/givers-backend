@@ -34,3 +34,5 @@ def registerUser(request):
     except:
         message={'detail':'User already exists'}
         return Response(message,status=status.HTTP_400_BAD_REQUEST)
+
+    
