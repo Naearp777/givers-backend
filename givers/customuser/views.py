@@ -11,7 +11,6 @@ from django.contrib.auth.hashers import make_password
 @api_view(['POST'])
 def registerUser(request):
     data=request.data
-    print(data)
     try:
         user=User.objects.create(
             password=make_password(data['password']),
@@ -36,5 +35,12 @@ def registerUser(request):
         serializer=UserSerializer(user,many=False)
         return Response(serializer.data)
     except:
-        message={'detail':'User already exists'}
-        return Response(message,status=status.HTTP_400_BAD_REQUEST)
+        if(User.objects.get(email=data['email'])):
+            if(User.objects.get(username=data['username'])):
+                data={"message":"Email and Username already exists"}
+            else:
+                data={"message":"Email already exists"}
+        else:
+            data={"message":"Username already exists"}
+
+        return Response(data,status=status.HTTP_400_BAD_REQUEST)
