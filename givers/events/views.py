@@ -45,6 +45,7 @@ def registerEvent(request):
         message={'detail':'Event with this content already exists'}
         return Response(message,status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def Event_display_specific(request,username):
