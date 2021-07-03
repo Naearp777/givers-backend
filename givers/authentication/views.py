@@ -1,11 +1,11 @@
 from django.shortcuts import render
-from .serializers import UserSerializer, UserSerializerWithToken, ChangePasswordSerializer
+from .serializers import ChangePasswordSerializer, ResetPasswordEmailRequestSerializer, UserSerializer, UserSerializerWithToken
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from rest_framework.permissions import IsAuthenticated,IsAdminUser
+from rest_framework.permissions import AllowAny, IsAuthenticated,IsAdminUser
 
 from customuser.models import User
 from django.contrib.auth.hashers import make_password
@@ -96,7 +96,7 @@ class ChangePasswordView(generics.UpdateAPIView):
     """
     serializer_class = ChangePasswordSerializer
     model = User
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny)
 
     def get_object(self, queryset=None):
         obj = self.request.user
@@ -125,29 +125,6 @@ class ChangePasswordView(generics.UpdateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class SendFormEmail(View):
-    
-    def  get(self, request):
-
-        # Get the form data 
-        name = request.GET.get('name', None)
-        email = request.GET.get('email', None)
-        message = request.GET.get('message', None)
-
-        # Send Email
-        send_mail(
-            'Subject - Django Email Testing', 
-            'Hello ' + name + ',\n' + message, 
-            'sender@example.com', # Admin
-            [
-                email,
-            ]
-        ) 
-
-        # Redirect to same page after form submit
-        messages.success(request, ('Email sent successfully.'))
-        return redirect('home') 
-
 from django.core.mail import send_mail, EmailMessage, EmailMultiAlternatives
 from django.http import HttpResponse  
 from django.conf import settings
@@ -171,7 +148,9 @@ def my_mail(request):
         msg = "Mail Sending Failed."  
     return HttpResponse(msg)  
 
+
 '''
+
 from django.conf import settings
 
 def send_html_email(to_list, subject, templates, context, sender=settings.DEFAULT_FROM_EMAIL):
@@ -208,3 +187,46 @@ def send_mail(request):
     mes.send()
 
 '''
+
+from django.contrib.auth.tokens  import PasswordResetTokenGenerator
+from django.utils.encoding import smart_str,force_str,smart_bytes, DjangoUnicodeDecodeError
+from django.utils.http import urlsafe_base64_decode,  urlsafe_base64_encode
+from django.contrib.sites.shortcuts import get_current_site
+from django.urls import reverse
+class RequestPasswordResetEmail(generics.GenericAPIView):
+    serializer_class = ResetPasswordEmailRequestSerializer
+
+    def post(self, request):
+        data = {'request':request, 'data': request.data}
+        serializer = self.serializer_class(data = data)
+        # serializer.is_valid(raise_exception=True)
+
+        email = request.data['email']
+        if User.objects.filter(email = email).exists():
+            user = User.objects.get(email = email)
+            uidb64 = urlsafe_base64_encode(smart_bytes(user.id))
+            token = PasswordResetTokenGenerator().make_token(user)
+
+            subject = "Greetings from Givers!"
+            current_site = get_current_site(
+                request  = request).domain
+            relativeLink = reverse('password_reset_confirm', kwargs={'uidb64':uidb64, 'token':token})
+            absurl = 'http://' + current_site + relativeLink 
+            email_body = 'Hi' + user.full_name+ 'Use this Link below to verify your email\n'+ absurl
+            send_mail(subject,email_body,settings.EMAIL_HOST_USER, [user.email])
+            return Response({'sucess': "We have sent a password reset email"}, status= status.HTTP_200_OK)
+class PasswordTokenCheckAPI(generics.GenericAPIView):
+    def get(self,request, uidb64,token):
+        try:
+            id = smart_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(id = id)
+
+            if not PasswordResetTokenGenerator().check_token(user,token):
+                 return Response({'error': "Token is not valid"}, status= status.HTTP_401_UNAUTHORIZED)
+
+            return Response ({'sucess':True, 'message': 'Credentials are valid.', 'uidb64': uidb64, 'token':token}, status= status.HTTP_200_OK)
+
+        except DjangoUnicodeDecodeError as  identifier:
+            if not PasswordResetTokenGenerator().check_token(user,token):
+                return Response({'error': "Token is not valid"}, status= status.HTTP_401_UNAUTHORIZED)
+

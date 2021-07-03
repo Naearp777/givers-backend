@@ -1,5 +1,7 @@
 #from django.contrib.auth.models import User
+from django.conf import settings
 from django.contrib.auth.forms import PasswordResetForm
+from django.core.mail import send_mail
 from customuser.models  import User
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -22,37 +24,45 @@ class UserSerializerWithToken(UserSerializer):
         token=RefreshToken.for_user(obj)
         return str(token)
 
+class EmailVerificationSerializer(serializers.ModelSerializer):
+    token = serializers.CharField(max_length=555)
+    class Meta:
+        model = User
+        fields = ['token']
+
 class ChangePasswordSerializer(serializers.Serializer):
     model = User
-    """
-    Serializer for password change endpoint.
-    """
-    old_password = serializers.CharField(required=True)
-    new_password = serializers.CharField(required=True)
 
-class PasswordResetSerializer(serializers.Serializer):
-    email = serializers.EmailField()
-    password_reset_form_class = PasswordResetForm
-    def validate_email(self, value):
-        self.reset_form = self.password_reset_form_class(data=self.initial_data)
-        if not self.reset_form.is_valid():
-            raise serializers.ValidationError(_('Error'))
+    old_password = serializers.CharField(max_length=50)
+    new_password = serializers.CharField(max_length=50)
 
-        ###### FILTER YOUR USER MODEL ######
-        if not User.objects.filter(email=value).exists():
 
-            raise serializers.ValidationError(_('Invalid e-mail address'))
-        return value
+from django.contrib.auth.tokens  import PasswordResetTokenGenerator
+from django.utils.encoding import smart_str,force_str,smart_bytes, DjangoUnicodeDecodeError
+from django.utils.http import urlsafe_base64_decode,  urlsafe_base64_encode
+from django.contrib.sites.shortcuts import get_current_site
+from django.urls import reverse
 
-    def save(self):
-        request = self.context.get('request')
-        opts = {
-            'use_https': request.is_secure(),
-            'from_email': getattr(settings, 'DEFAULT_FROM_EMAIL'),
+class ResetPasswordEmailRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField(min_length=2)
+    # redirect_url = serializers.CharField(max_length=500, required=False)
+    class Meta:
+        fields = ['email']
+'''
+    def validate(self,attrs):
+        email = attrs['data'].get('email','')
+        if User.objects.filter(email = email).exists():
+            user = User.objects.get(email = email)
+            uidb64 = urlsafe_base64_encode(user.id)
+            token = PasswordResetTokenGenerator().make_token(user)
 
-            ###### USE YOUR TEXT FILE ######
-            'email_template_name': 'password_reset_subject.txt',
+            subject = "Greetings from Givers!"
+            current_site = get_current_site(
+                request = attrs['data'].get('request')).domain
+            relativeLink = reverse('password_reset_confirm', kwargs={'uidb64':uidb64, 'token':token})
+            absurl = 'http://' + current_site + relativeLink 
+            email_body = 'Hi' + user.full_name+ 'Use this Link below to verify your email\n'
+            send_mail(subject,email_body,settings.EMAIL_HOST_USER, [user.email])
 
-            'request': request,
-        }
-        self.reset_form.save(**opts)
+        return super().validate(attrs)
+'''
