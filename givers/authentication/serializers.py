@@ -76,8 +76,8 @@ class SetNewPasswordSerializer(serializers.Serializer):
         min_length=1, write_only=True)
 
     class Meta:
-        fields = ['password', 'token', 'uidb64']
-
+        # fields = ['password', 'token', 'uidb64']
+        fields = ['password']
     def validate(self, attrs):
         try:
             password = attrs.get('password')
