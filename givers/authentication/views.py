@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .serializers import ChangePasswordSerializer, ResetPasswordEmailRequestSerializer, UserSerializer, UserSerializerWithToken
+from .serializers import ChangePasswordSerializer, ResetPasswordEmailRequestSerializer, SetNewPasswordSerializer, UserSerializer, UserSerializerWithToken
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -20,6 +20,12 @@ from django.views.generic import View
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.core.mail import send_mail, send_mass_mail
+
+from django.contrib.auth.tokens  import PasswordResetTokenGenerator
+from django.utils.encoding import smart_str,force_str,smart_bytes, DjangoUnicodeDecodeError
+from django.utils.http import urlsafe_base64_decode,  urlsafe_base64_encode
+from django.contrib.sites.shortcuts import get_current_site
+from django.urls import reverse
 
 
 # Create your views here.
@@ -188,11 +194,6 @@ def send_mail(request):
 
 '''
 
-from django.contrib.auth.tokens  import PasswordResetTokenGenerator
-from django.utils.encoding import smart_str,force_str,smart_bytes, DjangoUnicodeDecodeError
-from django.utils.http import urlsafe_base64_decode,  urlsafe_base64_encode
-from django.contrib.sites.shortcuts import get_current_site
-from django.urls import reverse
 class RequestPasswordResetEmail(generics.GenericAPIView):
     serializer_class = ResetPasswordEmailRequestSerializer
 
@@ -230,3 +231,10 @@ class PasswordTokenCheckAPI(generics.GenericAPIView):
             if not PasswordResetTokenGenerator().check_token(user,token):
                 return Response({'error': "Token is not valid"}, status= status.HTTP_401_UNAUTHORIZED)
 
+class SetNewPasswordAPIView(generics.GenericAPIView):
+    serializer_class = SetNewPasswordSerializer
+
+    def patch(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response({'success': True, 'message': 'Password reset success'}, status=status.HTTP_200_OK)
