@@ -24,6 +24,4 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
     )
     res.content_subtype = "html"  # Main content is now text/html
     res.send()
-    
-    
-    
+

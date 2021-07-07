@@ -19,6 +19,26 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta :
         model = User
         fields ='__all__'
+from customuser.models import User
+from rest_framework import serializers
+from rest_framework_simplejwt.tokens import RefreshToken
+
+class UserSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField(read_only=True)
+    isAdmin = serializers.SerializerMethodField(read_only=True)
+    class Meta:
+        model=User
+        fields=['id','username','email']
+
+    def get_isAdmin(self,obj):
+        return obj.is_staff
+
+    def get_name(self,obj):
+        name=obj.first_name
+        if name=='':
+            name=obj.email
+        return name
+
 
 class UserSerializerWithToken(UserSerializer):
     token = serializers.SerializerMethodField(read_only=True)
@@ -95,4 +115,5 @@ class SetNewPasswordSerializer(serializers.Serializer):
             return (user)
         except Exception as e:
             raise AuthenticationFailed('The reset link is invalid', 401)
+        
         return super().validate(attrs)

@@ -7,6 +7,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include("customuser.urls")),
-    path('', include('authentication.urls')),
+    path('',include("events.urls")),
+    path('',include("authentication.urls")),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

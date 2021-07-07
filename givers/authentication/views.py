@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import ChangePasswordSerializer, ResetPasswordEmailRequestSerializer, SetNewPasswordSerializer, UserSerializer, UserSerializerWithToken
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.response import Response
@@ -29,19 +30,6 @@ from django.urls import reverse
 
 
 # Create your views here.
-'''
-@api_view(['GET'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
-def auth_view(request, format=None):
-    content = {
-        'user': str(request.user),  # `django.contrib.auth.User` instance.
-        'auth': str(request.auth),  # None
-    }
-    return Response(content)
-'''
-
-
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def getUserProfile(request):
@@ -68,28 +56,26 @@ def registerUser(request):
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-    #@classmethod
-    #def get_token(cls, user):
-    #   token = super().get_token(user)
-    
-    #Validation ....next topic 
     def validate(self,attrs):
         data=super().validate(attrs)
         serializer=UserSerializerWithToken(self.user).data
         for k, v in serializer.items():
             data[k]=v
         return data
-        # Add custom claims
-        #token['name'] = user.name
-        # ...
-    
+
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
-    
 
 
 @api_view(['GET'])
-#@permission_classes([IsAdminUser])
+@permission_classes([IsAuthenticated])
+def getUserProfile(request):
+    user=request.user
+    serializer=UserSerializer(user,many=False)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
 def getUsers(request):
     users=User.objects.all()
     serializer=UserSerializer(users,many=True)
@@ -155,52 +141,13 @@ def my_mail(request):
     return HttpResponse(msg)  
 
 
-'''
-
-from django.conf import settings
-
-def send_html_email(to_list, subject, templates, context, sender=settings.DEFAULT_FROM_EMAIL):
-    msg = EmailMessage(subject=subject, body=msg_html, from_email=sender)
-    return msg.send()
-
-
-def notify_subscribers(request):
-    # emails = Subscriber.objects.all().values_list('email', flat=True)
-    emails = 'saugatkafley@gmail.com'
-    context = {
-        'news': 'We have good news!'
-    }
-    
-    res = send_html_email("saugatkafley@gmail.com", 'Good news', 'email_send.html', context, "volunteermanagementsoftware@gmail.com")
-    if (res ==1):
-        return HttpResponse("Message sent")
-    else:
-        return HttpResponse("Message  not sent")
-
-import os
-def send_mail(request):
-    subject = "Email Message."
-    from_email = settings.EMAIL_HOST_USER
-    to_email =["saugatkafley@gmail.com"]
-    # os.path.join(settings.BASE_DIR, 'templates/email_send')
-    with open(os.path.join(settings.BASE_DIR, 'templates\email_send.txt')) as f:
-        message = f.read()
-    # with open(settings.BASE_DIR + os.path.join(settings.BASE_DIR,'templates/email_send.txt') )as f:
-    #     message = f.read()
-    mes = EmailMultiAlternatives(subject= subject, body =message, from_email = from_email, to_email = [to_email])
-    html_template = get_template("tempaltes/email_send.html").render()
-    mes.attach_alternative(html_template,"text/html")
-    mes.send()
-
-'''
-
 class RequestPasswordResetEmail(generics.GenericAPIView):
     serializer_class = ResetPasswordEmailRequestSerializer
 
     def post(self, request):
         data = {'request':request, 'data': request.data}
         serializer = self.serializer_class(data = data)
-        # serializer.is_valid(raise_exception=True)
+        serializer.is_valid(raise_exception=True)
 
         email = request.data['email']
         if User.objects.filter(email = email).exists():
@@ -216,6 +163,7 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
             email_body = 'Hi' + user.full_name+ 'Use this Link below to verify your email\n'+ absurl
             send_mail(subject,email_body,settings.EMAIL_HOST_USER, [user.email])
             return Response({'sucess': "We have sent a password reset email"}, status= status.HTTP_200_OK)
+
 class PasswordTokenCheckAPI(generics.GenericAPIView):
     def get(self,request, uidb64,token):
         try:
@@ -238,3 +186,15 @@ class SetNewPasswordAPIView(generics.GenericAPIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response({'success': True, 'message': 'Password reset success'}, status=status.HTTP_200_OK)
+
+@permission_classes([IsAuthenticated])
+class LogoutView(APIView):
+    def post(self, request):
+        try:
+            refresh_token = request.data["refresh_token"]
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+
+            return Response(status=status.HTTP_205_RESET_CONTENT)
+        except Exception as e:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
