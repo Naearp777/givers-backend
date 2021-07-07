@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'events.apps.EventsConfig',
     'authentication.apps.AuthenticationConfig',
     'rest_framework_simplejwt.token_blacklist',
+    'volunteer.apps.VolunteerConfig',
+    'organization.apps.OrganizationConfig',
     
 ]
 REST_FRAMEWORK = {
