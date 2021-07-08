@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'volunteer.apps.VolunteerConfig',
     'organization.apps.OrganizationConfig',
+    'corsheaders',
     
 ]
 REST_FRAMEWORK = {
@@ -82,6 +83,7 @@ SIMPLE_JWT = {
 }
 AUTH_USER_MODEL = 'customuser.User'
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -176,3 +178,11 @@ EMAIL_PORT=587
 EMAIL_USE_TLS=True
 EMAIL_HOST_USER='volunteermanagementsoftware@gmail.com'
 EMAIL_HOST_PASSWORD='!volunteer!'
+
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = (
+       'http://localhost:3000',
+       'http://localhost:8000',
+)

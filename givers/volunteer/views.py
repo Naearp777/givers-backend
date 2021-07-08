@@ -33,9 +33,19 @@ def requestevent(request):
 
 @api_view(['POST'])
 def approval(request,E_id,V_id):
-    approval=requestevents.objects.filter(user_id=V_id ,event_id=E_id)
-    serializer=approvalSerializer(approval,many=True)
-    print(serializer.data)
-    return Response(serializer.data)
+    try:
+        approval=requestevents.objects.filter(user_id=V_id ,event_id=E_id)
+    except requestevents.DoesNotExist:
+         return Response(status=status.HTTP_400_BAD_REQUEST)
+    
+    serializer=approvalSerializer(approval,data=request.data)
+    data={}
+    if serializer.is_valid():
+        serializer.save()
+        data["success"]="Approved"
+        return Response(data=data)
+    return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
     
     
