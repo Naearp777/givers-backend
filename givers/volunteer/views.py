@@ -1,4 +1,5 @@
 from django.shortcuts import render,get_object_or_404
+from rest_framework import response
 from .models import requestevents
 from .serializers import requesteventSerializervolunteer,approvalSerializer
 from rest_framework import serializers, status
@@ -32,18 +33,25 @@ def requestevent(request):
         return Response(message,status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
+def showrequest(request,E_id,V_id):
+    try:
+        approval=requestevents.objects.filter(user_id=V_id ,event_id=E_id)
+        serializer=approvalSerializer(approval,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+    except requestevents.DoesNotExist:
+         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
 def approval(request,E_id,V_id):
     try:
         approval=requestevents.objects.get(user_id=V_id ,event_id=E_id)
         serializer=approvalSerializer(approval,data=request.data)
-        print(serializer.initial_data)
-        if serializer.is_valid():
-            #print(serializer.data)
+        if serializer.is_valid(): 
             serializer.save()
-            return Response ("Updated")
+            return Response (serializer.data)
         else:
-            print(serializer.errors)
-            return Response ("Failed")
+            return Response ({'status':'Failed'})
     except requestevents.DoesNotExist:
          return Response(status=status.HTTP_400_BAD_REQUEST)
     
