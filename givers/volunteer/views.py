@@ -1,11 +1,9 @@
-from django.shortcuts import render,get_object_or_404
-from rest_framework import response
+
 from .models import requestevents
-from .serializers import requesteventSerializervolunteer,approvalSerializer
-from rest_framework import serializers, status
-from rest_framework.decorators import api_view, permission_classes
+from .serializers import requesteventSerializervolunteer
+from rest_framework import status
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from customuser.models import User
 from events.models import Events
 # Create your views here.
@@ -32,28 +30,28 @@ def requestevent(request):
         message={'detail':'requestevents with this content already exists'}
         return Response(message,status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST'])
-def showrequest(request,E_id,V_id):
-    try:
-        approval=requestevents.objects.filter(user_id=V_id ,event_id=E_id)
-        serializer=approvalSerializer(approval,many=True)
-        return Response(serializer.data,status=status.HTTP_200_OK)
-    except requestevents.DoesNotExist:
-         return Response(status=status.HTTP_400_BAD_REQUEST)
+# @api_view(['POST'])
+# def showrequest(request,E_id,V_id):
+#     try:
+#         approval=requestevents.objects.filter(user_id=V_id ,event_id=E_id)
+#         serializer=approvalSerializer(approval,many=True)
+#         return Response(serializer.data,status=status.HTTP_200_OK)
+#     except requestevents.DoesNotExist:
+#          return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['POST'])
-def approval(request,E_id,V_id):
-    try:
-        approval=requestevents.objects.get(user_id=V_id ,event_id=E_id)
-        serializer=approvalSerializer(approval,data=request.data)
-        if serializer.is_valid(): 
-            serializer.save()
-            return Response (serializer.data)
-        else:
-            return Response ({'status':'Failed'})
-    except requestevents.DoesNotExist:
-         return Response(status=status.HTTP_400_BAD_REQUEST)
+# @api_view(['POST'])
+# def approval(request,E_id,V_id):
+#     try:
+#         approval=requestevents.objects.get(user_id=V_id ,event_id=E_id)
+#         serializer=approvalSerializer(approval,data=request.data)
+#         if serializer.is_valid(): 
+#             serializer.save()
+#             return Response (serializer.data)
+#         else:
+#             return Response ({'status':'Failed'})
+#     except requestevents.DoesNotExist:
+#          return Response(status=status.HTTP_400_BAD_REQUEST)
     
     
     
