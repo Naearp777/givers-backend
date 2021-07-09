@@ -16,3 +16,4 @@ class approvalSerializer(serializers.ModelSerializer):
     class Meta:
         model=requestevents
         fields='__all__'
+        extra_kwargs = {'user': {'required': False},'event': {'required': False}}
