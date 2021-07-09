@@ -1,7 +1,7 @@
 from django.shortcuts import render,get_object_or_404
 from .models import requestevents
 from .serializers import requesteventSerializervolunteer,approvalSerializer
-from rest_framework import status
+from rest_framework import serializers, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -35,17 +35,31 @@ def requestevent(request):
 def approval(request,E_id,V_id):
     try:
         approval=requestevents.objects.filter(user_id=V_id ,event_id=E_id)
+        serializer=approvalSerializer(approval,data=request.data)
+        print(serializer.initial_data)
+        if serializer.is_valid():
+            print(serializer.data)
+            serializer.save()
+            return Response ("Updated")
+        else:
+            return Response ("Failed")
     except requestevents.DoesNotExist:
          return Response(status=status.HTTP_400_BAD_REQUEST)
     
-    serializer=approvalSerializer(approval,data=request.data)
-    data={}
-    if serializer.is_valid():
-        serializer.save()
-        data["success"]="Approved"
-        return Response(data=data)
-    return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    # serializer=approvalSerializer(approval,data=request.data)
+    # print(serializer.data)
+    # data={}
+    # if serializer.is_valid():
+    #     serializer.save()
+    #     data["success"]="Approved"
+    #     return Response(data=data)
+    # return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
-
+    # @api_view(['POST'])
+    # def approval(request,E_id,V_id):
+    #     approval=requestevents.objects.filter(user_id=V_id ,event_id=E_id)
+    #     serializer=approvalSerializer(approval,many=True)
+    #     print(serializer.data)
+    #     return Response(serializer.data)
     
     
