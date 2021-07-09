@@ -1,6 +1,6 @@
 
 from .models import requestevents
-from .serializers import requesteventSerializervolunteer
+from .serializers import interestedSerializervolunteer, requesteventSerializervolunteer
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -53,6 +53,12 @@ def requestevent(request):
 #     except requestevents.DoesNotExist:
 #          return Response(status=status.HTTP_400_BAD_REQUEST)
     
-    
-    
+@api_view(['GET'])
+def showinterested(request,V_id):
+    try:
+        interested=requestevents.objects.filter(user_id=V_id ,interested=True)
+        serializer=interestedSerializervolunteer(interested,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+    except requestevents.DoesNotExist:
+         return Response(status=status.HTTP_400_BAD_REQUEST)
     
