@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'volunteer.apps.VolunteerConfig',
     'organization.apps.OrganizationConfig',
     'corsheaders',
+    'notification.apps.NotificationConfig',
     
 ]
 REST_FRAMEWORK = {
