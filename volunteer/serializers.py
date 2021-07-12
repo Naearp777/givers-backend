@@ -7,7 +7,7 @@ from .models import requestevents
 class requesteventSerializervolunteer(serializers.ModelSerializer):
     class Meta:
         model=requestevents
-        fields=['user','event','description','interested','request_volunteer','user_details']
+        fields='__all__'
 
 # class approvalSerializer(serializers.ModelSerializer):
 #     class Meta:
