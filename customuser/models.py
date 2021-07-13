@@ -57,7 +57,7 @@ class User(AbstractBaseUser):
     twitter=models.URLField(blank=True,null=True,max_length=255)
     website=models.URLField(blank=True,null=True,max_length=255)
     images=models.ImageField(default='avatar.jpg',upload_to='profile_Images')
-    description=models.CharField(max_length=2000,null=True)
+    description=models.TextField(max_length=2000,null=True)
     volunteer = models.BooleanField(default=True)
     organization = models.BooleanField(default=False) # a admin user; non super-user
     admin = models.BooleanField(default=False) # a superuser

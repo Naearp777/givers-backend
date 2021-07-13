@@ -10,7 +10,7 @@ class Events(models.Model):
     banner=models.ImageField(default='avatar.jpg',upload_to='Banner_Images')
     start_date=models.DateField(auto_now=False,auto_now_add=False,blank=True,null=True)
     end_date=models.DateField(auto_now=False,auto_now_add=False,blank=True,null=True)
-    description=models.CharField(max_length=2000,null=True)
+    description=models.TextField(max_length=2000,null=True)
     toggle=models.BooleanField(null=True)
     def __str__(self):
         return f'{self.name}'
