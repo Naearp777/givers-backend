@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'organization.apps.OrganizationConfig',
     'corsheaders',
     'notification.apps.NotificationConfig',
+    'validators.apps.ValidatorsConfig',
     
 ]
 REST_FRAMEWORK = {

@@ -25,4 +25,5 @@ urlpatterns = [
     path('',include("authentication.urls")),
     path('',include("volunteer.urls")),
     path('',include("organization.urls")),
+    path('',include("validators.urls")),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
