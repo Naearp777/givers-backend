@@ -11,11 +11,15 @@ class requestevents(models.Model):
     event=models.ForeignKey(Events,on_delete=models.CASCADE)
     user_details=models.FileField(default='avatar.jpg',upload_to='request_volunteer')
     description=models.CharField(max_length=2000,null=True)
-    interested=models.BooleanField(default=False)
     request_volunteer= models.BooleanField(default=False)
     approved=models.BooleanField(default=False)
     def __str__(self):
         return f'{self.user}'
     
 
-
+class interestedevents(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    event=models.ForeignKey(Events,on_delete=models.CASCADE)
+    interested=models.BooleanField(default=False)
+    def __str__(self):
+        return f'{self.user}'

@@ -1,7 +1,8 @@
 
+
 from rest_framework import serializers
 
-from .models import requestevents
+from .models import interestedevents, requestevents
 
 
 class requesteventSerializervolunteer(serializers.ModelSerializer):
@@ -17,5 +18,5 @@ class requesteventSerializervolunteer(serializers.ModelSerializer):
 
 class interestedSerializervolunteer(serializers.ModelSerializer):
     class Meta:
-        model=requestevents
+        model=interestedevents
         fields='__all__'
