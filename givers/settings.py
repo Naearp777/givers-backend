@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'notification.apps.NotificationConfig',
     'validators.apps.ValidatorsConfig',
+    'django_rest_passwordreset',
     
 ]
 REST_FRAMEWORK = {
