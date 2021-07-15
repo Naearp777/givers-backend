@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'notification.apps.NotificationConfig',
     'validators.apps.ValidatorsConfig',
     'django_rest_passwordreset',
+    'category.apps.CategoryConfig',
     
 ]
 REST_FRAMEWORK = {
