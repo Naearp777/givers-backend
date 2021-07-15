@@ -35,6 +35,7 @@ def Event_display_specific(request,username):
 @api_view(['POST'])
 def registerEvent(request):
     data=request.data
+    print(data)
     try:
         Event=Events.objects.create(
             user=User.objects.get(username=data['username']),
