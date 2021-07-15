@@ -24,3 +24,13 @@ def show_event_desc(request):
         return Response(serializer.data,status=status.HTTP_200_OK)
     except Events.DoesNotExist:
          return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def show_event_postedtime(request):
+    try:
+        category=Events.objects.order_by('-posted_at')
+        serializer=EventSerializer(category,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+    except Events.DoesNotExist:
+         return Response(status=status.HTTP_400_BAD_REQUEST)
