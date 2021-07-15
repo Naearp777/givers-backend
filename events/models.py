@@ -14,3 +14,4 @@ class Events(models.Model):
     toggle=models.BooleanField(null=True)
     def __str__(self):
         return f'{self.name}'
+
