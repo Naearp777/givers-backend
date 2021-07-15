@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'organization.apps.OrganizationConfig',
     'corsheaders',
     'notifications',
-    'notification.apps.NotificationConfig',
     
 ]
 REST_FRAMEWORK = {

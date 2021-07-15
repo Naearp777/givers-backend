@@ -43,7 +43,7 @@ def show_all_requested(request,E_id):
          return Response(status=status.HTTP_400_BAD_REQUEST)
 
 from notifications.signals import notify
-from notification.models import Notification
+
 
 @api_view(['GET', 'PUT'])
 def update_request_api(request,E_id):
