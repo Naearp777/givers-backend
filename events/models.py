@@ -1,9 +1,11 @@
+from category.models import EventCategory
 from django.db import models
 from customuser.models import User
 
 # Create your models here.
 class Events(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
+    category=models.ForeignKey(EventCategory,on_delete=models.CASCADE)
     name= models.CharField(max_length=250,null=True)
     posted_at=models.DateTimeField(null=True,auto_now=True)
     location=models.CharField(max_length=100,null=True)
