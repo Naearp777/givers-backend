@@ -27,6 +27,15 @@ def Event_display_id(request,E_id):
     serializer=EventSerializer(event,many=False)
     return Response(serializer.data)
 
+@api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+def Event_display_specific(request,username):
+    user = User.objects.get(username=username)
+    event = Events.objects.filter(user=user)
+    serializer=EventSerializer(event,many=True)
+    return Response(serializer.data)
+
+from notifications.signals import notify
 @api_view(['POST'])
 def registerEvent(request):
     data=request.data
@@ -45,50 +54,25 @@ def registerEvent(request):
         Event.banner=request.FILES.get('banner')
         Event.save()
         serializer=EventSerializer(Event,many=False)
+        notify.send(sender=request.user,recipient=User.objects.get(username=data['username']),verb='created an event',level='info',target=Event)
         return Response(serializer.data)
     except:
         message={'detail':'Event with this content already exists'}
         return Response(message,status=status.HTTP_400_BAD_REQUEST)
 
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def Event_display_specific(request,username):
-    user = get_object_or_404(User.objects, username=username)
-    event = Events.objects.filter(user=user)
-    serializer=EventSerializer(event,many=True)
-    return Response(serializer.data)
-'''
-@api_view(['PUT'])
-@permission_classes([IsAuthenticated])
-def Event_Update(request,name):
-    try:
-        event = Events.objects.get(name = name)
-    except Events.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    
-    serializer = EventSerializer(event , data = request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
-'''
-
-class EventRegister(APIView):
-    queryset =Events.objects.all()
-    serializer_class= EventSerializer
+class RegisterEventAPI(generics.CreateAPIView):
+    serializer_class = EventSerializer
+    permission_classes = (AllowAny,)
+    queryset = Events.objects.all()
 
     def perform_create(self, serializer):
-        # Assign the user who created the movie
-        serializer.save(creator=self.request.user)
+        notify.send(sender = self.request.user,recipient  =User.objects.filter(volunteer= self.request.user.volunteer) , verb = " There is an event created.")
+        serializer.save(user=self.request.user)
 
-class EventUpdate(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Events.objects.all()
-    serializer_class = EventUpdateSerializer
+        # notify.send(self.request.user,recipient = self. ,verb='There is a new event .',level='info',target=serializer.save())
+        # serializer.save(user=self.request.user)
+        
 
-from rest_framework import viewsets
 
-class EventViewSet(viewsets.ModelViewSet):
-    serializer_class = EventSerializer
-    queryset = Events.objects.all()
+
 
