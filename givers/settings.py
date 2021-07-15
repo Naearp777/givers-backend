@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'volunteer.apps.VolunteerConfig',
     'organization.apps.OrganizationConfig',
     'corsheaders',
-    'notification.apps.NotificationConfig',
     'validators.apps.ValidatorsConfig',
     'django_rest_passwordreset',
     'category.apps.CategoryConfig',
