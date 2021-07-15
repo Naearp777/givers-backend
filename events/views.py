@@ -7,6 +7,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from customuser.models import User
+from events.models import EventCategory
 
 @api_view(['GET'])
 #@permission_classes([IsAuthenticated])
@@ -37,6 +38,7 @@ def registerEvent(request):
     try:
         Event=Events.objects.create(
             user=User.objects.get(username=data['username']),
+            category=EventCategory.objects.get(category=data['category']),
             name=data['name'],
             location=data['location'],
             start_date=data['start_date'],
