@@ -27,10 +27,18 @@ def Event_display_id(request,E_id):
 # @permission_classes([IsAuthenticated])
 def Event_display_specific(request,username):
     user = User.objects.get(username=username)
-    event = Events.objects.filter(user=user)
+    event = Events.objects.filter(user=user,completed=False)
     serializer=EventSerializer(event,many=True)
     return Response(serializer.data)
 
+
+@api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+def Event_display_completed(request,username):
+    user = User.objects.get(username=username)
+    event = Events.objects.filter(user=user,completed=True)
+    serializer=EventSerializer(event,many=True)
+    return Response(serializer.data)
 
 @api_view(['POST'])
 def registerEvent(request):
