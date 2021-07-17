@@ -45,7 +45,7 @@ def registerEvent(request):
             start_date=data['start_date'],
             end_date=data['end_date'],
             description=data['description'],
-            toggle=data['toggle'],
+            completed=data['completed'],
         )
         serializer=EventSerializer(Event,many=False)
         Event=Events.objects.get(id=serializer.data['id'])

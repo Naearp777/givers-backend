@@ -13,7 +13,7 @@ class Events(models.Model):
     start_date=models.DateField(auto_now=False,auto_now_add=False,blank=True,null=True)
     end_date=models.DateField(auto_now=False,auto_now_add=False,blank=True,null=True)
     description=models.TextField(max_length=2000,null=True)
-    toggle=models.BooleanField(null=True)
+    completed=models.BooleanField(default=False)
     def __str__(self):
         return f'{self.name}'
 
