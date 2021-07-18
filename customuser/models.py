@@ -61,7 +61,8 @@ class User(AbstractBaseUser):
     volunteer = models.BooleanField(default=True)
     organization = models.BooleanField(default=False) # a admin user; non super-user
     admin = models.BooleanField(default=False) # a superuser
-
+    otp = models.IntegerField(null=True,blank=True)
+    activation_key = models.CharField(max_length=150,blank=True,null=True)
     # notice the absence of a "Password field", that is built in.
 
     USERNAME_FIELD = 'email'
