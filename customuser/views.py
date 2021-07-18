@@ -99,9 +99,30 @@ def RegisterVerify(request,otp):
                 sign_up.attach_alternative(email_template, 'text/html')
                 sign_up.send()
                 
-                return Response({"Varify success" : "Your account has been successfully activated!!"}, status=status.HTTP_202_ACCEPTED)
+                return Response({"Verify success" : "Your account has been successfully activated!!"}, status=status.HTTP_202_ACCEPTED)
             else:
                 return Response({"Time out" : "Given otp is expired!!"}, status=status.HTTP_408_REQUEST_TIMEOUT)
     
     except:
         return Response({"No User" : "Invalid otp OR No any inactive user found for given otp"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+@api_view(['POST'])
+def Resend_otp(request,username):
+    try:
+        user=User.objects.get(username=username)
+        serializer=UserSerializer(user,many=False)
+        email_template = render_to_string('signup_otp.html',{"otp":serializer.data['otp'],"username":serializer.data['username'],"email":serializer.data['email']})    
+        sign_up = EmailMultiAlternatives(
+                        "Otp Verification", 
+                        "Otp Verification",
+                        settings.EMAIL_HOST_USER, 
+                        [serializer.data['email']],
+                    )
+        sign_up.attach_alternative(email_template, 'text/html')
+        sign_up.send()
+
+        return Response(status=status.HTTP_200_OK)
+    except User.DoesNotExist:
+         return Response(status=status.HTTP_400_BAD_REQUEST)
