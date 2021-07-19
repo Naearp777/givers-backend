@@ -1,9 +1,10 @@
-from .serializers import UserSerializer
+from .serializers import UserSerializer,UserupdateSerializer
 from .models import User
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.auth.hashers import make_password
+from rest_framework import generics
 
 
 # Create your views here.
@@ -44,3 +45,9 @@ def registerUser(request):
             data={"message":"Username already exists"}
 
         return Response(data,status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class UserUpdate(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserupdateSerializer

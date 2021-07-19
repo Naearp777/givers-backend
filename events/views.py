@@ -10,21 +10,21 @@ from customuser.models import User
 from events.models import EventCategory
 from rest_framework import generics
 @api_view(['GET'])
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def Event_display_all(request):
     all_events=Events.objects.all()
     serializer=EventSerializer(all_events,many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def Event_display_id(request,E_id):
     event=Events.objects.get(id=E_id)
     serializer=EventSerializer(event,many=False)
     return Response(serializer.data)
 
 @api_view(['GET'])
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def Event_display_specific(request,username):
     user = User.objects.get(username=username)
     event = Events.objects.filter(user=user,completed=False)
@@ -33,7 +33,7 @@ def Event_display_specific(request,username):
 
 
 @api_view(['GET'])
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def Event_display_completed(request,username):
     user = User.objects.get(username=username)
     event = Events.objects.filter(user=user,completed=True)

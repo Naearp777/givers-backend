@@ -6,3 +6,9 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model=User
         exclude=['password','last_login']
+
+
+class UserupdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=User
+        exclude=['last_login']
