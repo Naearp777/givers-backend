@@ -49,7 +49,7 @@ def registerUser(request):
         user.save()
         serializer=UserSerializer(user,many=False)
 
-        email_template = render_to_string('signup_otp.html',{"otp":key['OTP'],"username":serializer.data['username']})    
+        email_template = render_to_string('signup_otp.html',{"otp":key['OTP'],"username":serializer.data['username'],"email":serializer.data['email']})    
         sign_up = EmailMultiAlternatives(
                         "Otp Verification", 
                         "Otp Verification",
