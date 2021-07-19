@@ -16,3 +16,8 @@ class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model=Events
         fields='__all__'
+
+class EventupdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Events
+        fields='__all__'
