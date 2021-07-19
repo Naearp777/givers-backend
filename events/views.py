@@ -1,8 +1,8 @@
 # Create your views here.
 from django.shortcuts import render,get_object_or_404
 from .models import Events
-from .serializers import EventSerializer
-from rest_framework import status
+from .serializers import EventSerializer,EventupdateSerializer
+from rest_framework import status ,generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -65,5 +65,7 @@ def registerEvent(request):
         message={'detail':'Event with this content already exists'}
         return Response(message,status=status.HTTP_400_BAD_REQUEST)
 
-
+class EventUpdate(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Events.objects.all()
+    serializer_class = EventupdateSerializer
 

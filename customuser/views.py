@@ -1,6 +1,6 @@
-from .serializers import UserSerializer
+from .serializers import UserSerializer,UserupdateSerializer
 from .models import User
-from rest_framework import status
+from rest_framework import status,generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.auth.hashers import make_password
@@ -126,3 +126,8 @@ def Resend_otp(request,username):
         return Response(status=status.HTTP_200_OK)
     except User.DoesNotExist:
          return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserUpdate(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserupdateSerializer
