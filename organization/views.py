@@ -48,7 +48,7 @@ def requestforms(request):
     data=request.data
     try:
         form=requestform.objects.create(
-            event=Events.objects.get(name=data['name']),
+            event=Events.objects.get(id=data['id']),
             ques_1=data['ques_1'],
             ques_2=data['ques_2'],
             ques_3=data['ques_3'],
