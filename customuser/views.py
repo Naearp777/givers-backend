@@ -74,9 +74,9 @@ def registerUser(request):
 
 
 @api_view(['POST'])
-def RegisterVerify(request,otp):
+def RegisterVerify(request,otp,id):
     try:
-        user = User.objects.get(otp = otp,active = False)
+        user = User.objects.get(id=id,otp = otp,active = False)
         otp = user.otp
         if otp != otp:
             return Response({"Otp" : "Invalid otp"},status=status.HTTP_406_NOT_ACCEPTABLE)
@@ -99,12 +99,12 @@ def RegisterVerify(request,otp):
                 sign_up.attach_alternative(email_template, 'text/html')
                 sign_up.send()
                 
-                return Response({"Verify success" : "Your account has been successfully activated!!"}, status=status.HTTP_202_ACCEPTED)
+                return Response({"Verify success" : "Your account has been successfully activated!!","verified":True}, status=status.HTTP_202_ACCEPTED)
             else:
-                return Response({"Time out" : "Given otp is expired!!"}, status=status.HTTP_408_REQUEST_TIMEOUT)
+                return Response({"Time out" : "Given otp is expired!!","verified":False,"timeout":True}, status=status.HTTP_408_REQUEST_TIMEOUT)
     
     except:
-        return Response({"No User" : "Invalid otp OR No any inactive user found for given otp"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"No User" : "Invalid otp OR No any inactive user found for given otp","verified":False}, status=status.HTTP_400_BAD_REQUEST)
 
 
 
