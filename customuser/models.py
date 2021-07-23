@@ -15,7 +15,7 @@ class UserManager(BaseUserManager):
             email=self.normalize_email(email),
         )
 
-        user.set_password(make_password(password))
+        user.set_password(password)
         user.save(using=self._db)
         return user
 
@@ -44,7 +44,6 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-
 class User(AbstractBaseUser):
     email = models.EmailField( verbose_name='email address',max_length=255,unique=True,)
     full_name=models.CharField(max_length=255,null=True)
@@ -64,11 +63,19 @@ class User(AbstractBaseUser):
     otp = models.IntegerField(null=True,blank=True)
     activation_key = models.CharField(max_length=150,blank=True,null=True)
     active=models.BooleanField(default=False)
+    staff=models.BooleanField(default=False)
     # notice the absence of a "Password field", that is built in.
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = [] # Email & Password are required by default.
     objects = UserManager()
+    def get_full_name(self):
+        # The user is identified by their email address
+        return self.email
+
+    def get_short_name(self):
+        # The user is identified by their email address
+        return self.email
 
     def __str__(self):
         return self.email
@@ -86,7 +93,7 @@ class User(AbstractBaseUser):
     @property
     def is_staff(self):
         "Is the user a member of staff?"
-        return self.organization
+        return self.staff
 
     @property
     def is_admin(self):

@@ -41,7 +41,8 @@ def registerUser(request):
             admin=data['admin'],
             otp = key['OTP'],
             activation_key = key['totp'],
-            active=data['active']
+            active=data['active'],
+            staff=data['staff'],
 
         )
         user=User.objects.get(email=data['email'])
@@ -131,3 +132,15 @@ def Resend_otp(request,username):
 class UserUpdate(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserupdateSerializer
+
+
+
+
+
+
+
+
+
+
+
+
