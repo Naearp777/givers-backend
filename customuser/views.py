@@ -74,38 +74,55 @@ def registerUser(request):
         return Response(data,status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['POST'])
-def RegisterVerify(request,otp,id):
+@api_view(["POST"])
+def RegisterVerify(request, otp, id):
     try:
-        user = User.objects.get(id=id,otp = otp,active = False)
+        user = User.objects.get(id=id, otp=otp, active=False)
         otp = user.otp
         if otp != otp:
-            return Response({"Otp" : "Invalid otp"},status=status.HTTP_406_NOT_ACCEPTABLE)
+            return Response(
+                {"message": "Invalid otp", "error": True},
+                status=status.HTTP_406_NOT_ACCEPTABLE,
+            )
         else:
             activation_key = user.activation_key
             totp = pyotp.TOTP(activation_key, interval=86400)
             verify = totp.verify(otp)
-            
+
             if verify:
                 user.active = True
                 user.save()
-                
-                email_template = render_to_string('signup_otp_success.html',{"username":user.username})    
+
+                email_template = render_to_string(
+                    "signup_otp_success.html", {"username": user.username}
+                )
                 sign_up = EmailMultiAlternatives(
-                        "Account successfully activated", 
-                        "Account successfully activated",
-                        settings.EMAIL_HOST_USER, 
-                        [user.email],
-                    )
-                sign_up.attach_alternative(email_template, 'text/html')
+                    "Account successfully activated",
+                    "Account successfully activated",
+                    settings.EMAIL_HOST_USER,
+                    [user.email],
+                )
+                sign_up.attach_alternative(email_template, "text/html")
                 sign_up.send()
-                
-                return Response({"Verify success" : "Your account has been successfully activated!!","verified":True}, status=status.HTTP_202_ACCEPTED)
+
+                return Response(
+                    {
+                        "message": "Your account has been successfully activated!!",
+                        "verified": True,
+                    },
+                )
             else:
-                return Response({"Time out" : "Given otp is expired!!","verified":False,"timeout":True}, status=status.HTTP_408_REQUEST_TIMEOUT)
-    
+                return Response(
+                    {"message": "Given otp is expired!!", "timeout": True},
+                )
+
     except:
-        return Response({"No User" : "Invalid otp OR No any inactive user found for given otp","verified":False}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {
+                "message": "Invalid otp OR No any inactive user found for given otp",
+                "error": True,
+            },
+        )
 
 
 
