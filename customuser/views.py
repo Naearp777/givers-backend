@@ -1,4 +1,4 @@
-from .serializers import UserSerializer,UserupdateSerializer
+from .serializers import UserSerializer, UserresendotpSerializer,UserupdateSerializer
 from .models import User
 from rest_framework import status,generics
 from rest_framework.decorators import api_view
@@ -128,8 +128,13 @@ def RegisterVerify(request, otp, id):
 
 @api_view(['POST'])
 def Resend_otp(request,id):
+    key = generateKey.returnValue()
+    print(key)
     try:
         user=User.objects.get(id=id)
+        user.otp = key['OTP']
+        user.activation_key= key['totp']
+        user.save()
         serializer=UserSerializer(user,many=False)
         email_template = render_to_string('signup_otp.html',{"otp":serializer.data['otp'],"username":serializer.data['username'],"email":serializer.data['email']})    
         sign_up = EmailMultiAlternatives(
