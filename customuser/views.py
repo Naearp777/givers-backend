@@ -14,7 +14,7 @@ class generateKey:
     @staticmethod
     def returnValue():
         secret = pyotp.random_base32()        
-        totp = pyotp.TOTP(secret, interval=86400)
+        totp = pyotp.TOTP(secret, interval=600)
         OTP = totp.now()
         return {"totp":secret,"OTP":OTP}
 
