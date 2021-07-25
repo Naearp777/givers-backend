@@ -146,9 +146,15 @@ def Resend_otp(request,id):
         sign_up.attach_alternative(email_template, 'text/html')
         sign_up.send()
 
-        return Response(status=status.HTTP_200_OK)
+        return Response({
+            "message": "OTP successfully sent to your email",
+            "sent": True,
+        })
     except User.DoesNotExist:
-         return Response(status=status.HTTP_400_BAD_REQUEST)
+         return Response({
+             "message": "OTP resend error occured",
+             "sent": False,
+         })
 
 
 class UserUpdate(generics.RetrieveUpdateDestroyAPIView):
