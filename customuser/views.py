@@ -86,7 +86,7 @@ def RegisterVerify(request, otp, id):
             )
         else:
             activation_key = user.activation_key
-            totp = pyotp.TOTP(activation_key, interval=86400)
+            totp = pyotp.TOTP(activation_key, interval=600)
             verify = totp.verify(otp)
 
             if verify:
