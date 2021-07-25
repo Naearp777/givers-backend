@@ -9,14 +9,21 @@ from events.models import Events
 # Create your views here.
 
 @api_view(['POST'])
-def requestevent(request):
+def requestevent(request,V_id,E_id):
     data=request.data
     try:
         requestevent=requestevents.objects.create(
-            user=User.objects.get(username=data['username']),
-            event=Events.objects.get(name=data['name']),
-            description=data['description'],
+            user=User.objects.get(id=V_id),
+            event=Events.objects.get(id=E_id),
+            # description=data['description'],
+            ques_1=data['ques_1'],
+            ques_2=data['ques_2'],
+            ques_3=data['ques_3'],
+            ans_1=data['ans_1'],
+            ans_2=data['ans_2'],
+            ans_3=data['ans_3'],
             request_volunteer=data['request_volunteer'],
+            approved=data['approved'],
         )
         serializer=requesteventSerializervolunteer(requestevent,many=False)
         requestevent=requestevents.objects.get(id=serializer.data['id'])
