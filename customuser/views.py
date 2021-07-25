@@ -127,9 +127,9 @@ def RegisterVerify(request, otp, id):
 
 
 @api_view(['POST'])
-def Resend_otp(request,username):
+def Resend_otp(request,id):
     try:
-        user=User.objects.get(username=username)
+        user=User.objects.get(id=id)
         serializer=UserSerializer(user,many=False)
         email_template = render_to_string('signup_otp.html',{"otp":serializer.data['otp'],"username":serializer.data['username'],"email":serializer.data['email']})    
         sign_up = EmailMultiAlternatives(
