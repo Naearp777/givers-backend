@@ -7,8 +7,8 @@ from events.models import Events
 
 
 class requestevents(models.Model):
-    user=models.ForeignKey(User,on_delete=models.CASCADE)
-    event=models.ForeignKey(Events,on_delete=models.CASCADE)
+    user=models.OneToOneField(User,on_delete=models.CASCADE)
+    event=models.OneToOneField(Events,on_delete=models.CASCADE)
     user_details=models.FileField(default='avatar.jpg',upload_to='request_volunteer')
     ques_1 = models.TextField(max_length=2000, null=True)
     ques_2 = models.TextField(max_length=2000, null=True)
