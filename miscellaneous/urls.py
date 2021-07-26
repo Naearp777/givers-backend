@@ -8,4 +8,6 @@ urlpatterns=[
     path('api/events/',views.show_event_postedtime,name='show_posted_latest'),
     path('api/events/search/',views.searchevents,name='search_event'),
     path('api/users/search/',views.searchuser,name='search_user'),
+    path('api/show/approval/<int:E_id>/',views.show_number_approved,name='approval_no'),
+    path('api/show/requested/<int:E_id>/',views.show_number_requested,name='requested_no'),
 ]

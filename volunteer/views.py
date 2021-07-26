@@ -10,31 +10,35 @@ from events.models import Events
 
 @api_view(['POST'])
 def requestevent(request,V_id,E_id):
-    data=request.data
-    try:
-        requestevent=requestevents.objects.create(
-            user=User.objects.get(id=V_id),
-            event=Events.objects.get(id=E_id),
-            # description=data['description'],
-            ques_1=data['ques_1'],
-            ques_2=data['ques_2'],
-            ques_3=data['ques_3'],
-            ans_1=data['ans_1'],
-            ans_2=data['ans_2'],
-            ans_3=data['ans_3'],
-            request_volunteer=data['request_volunteer'],
-            approved=data['approved'],
-        )
-        serializer=requesteventSerializervolunteer(requestevent,many=False)
-        requestevent=requestevents.objects.get(id=serializer.data['id'])
-        requestevent.user_details=request.FILES.get('user_details')
-        requestevent.save()
-        serializer=requesteventSerializervolunteer(requestevent,many=False)
-        
-        return Response(serializer.data)
-    except:
-        message={'detail':'requestevents with this content already exists'}
-        return Response(message,status=status.HTTP_400_BAD_REQUEST)
+    if requestevents.objects.filter(user_id=V_id,event_id=E_id).exists():
+        message={'message':'You have already requested to this event'}
+        return Response(message)
+    else:
+        data=request.data
+        try:
+            requestevent=requestevents.objects.create(
+                user=User.objects.get(id=V_id),
+                event=Events.objects.get(id=E_id),
+                # description=data['description'],
+                ques_1=data['ques_1'],
+                ques_2=data['ques_2'],
+                ques_3=data['ques_3'],
+                ans_1=data['ans_1'],
+                ans_2=data['ans_2'],
+                ans_3=data['ans_3'],
+                request_volunteer=data['request_volunteer'],
+                approved=data['approved'],
+            )
+            serializer=requesteventSerializervolunteer(requestevent,many=False)
+            requestevent=requestevents.objects.get(id=serializer.data['id'])
+            requestevent.user_details=request.FILES.get('user_details')
+            requestevent.save()
+            serializer=requesteventSerializervolunteer(requestevent,many=False)
+            
+            return Response(serializer.data)
+        except:
+            message={'detail':'requestevents with this content already exists'}
+            return Response(message,status=status.HTTP_400_BAD_REQUEST)
 
 # @api_view(['POST'])
 # def showrequest(request,E_id,V_id):
