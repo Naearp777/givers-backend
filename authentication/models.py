@@ -24,17 +24,20 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
         'username': reset_password_token.user.username,
         'email': reset_password_token.user.email,
         'reset_password_url': "{}?token={}".format(
-            instance.request.build_absolute_uri(reverse('password_reset:reset-password-confirm')),
+            instance.request.build_absolute_uri(
+                reverse('password_reset:reset-password-confirm')),
             reset_password_token.key)
     }
 
     # render email text
     email_html_message = render_to_string('user_reset_password.html', context)
-    email_plaintext_message = render_to_string('user_reset_password.txt', context)
+    email_plaintext_message = render_to_string(
+        'user_reset_password.txt', context)
 
     msg = EmailMultiAlternatives(
         # title:
-        "Password Reset for {title}".format(title="Volunteer Management System"),
+        "Password Reset for {title}".format(
+            title="Volunteer Management System"),
         # message:
         email_plaintext_message,
         # from:
@@ -44,4 +47,3 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
     )
     msg.attach_alternative(email_html_message, "text/html")
     msg.send()
-    

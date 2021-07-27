@@ -1,6 +1,6 @@
-from .serializers import UserSerializer, UserresendotpSerializer,UserupdateSerializer
+from .serializers import UserSerializer, UserresendotpSerializer, UserupdateSerializer
 from .models import User
-from rest_framework import status,generics
+from rest_framework import status, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.auth.hashers import make_password
@@ -10,20 +10,23 @@ from django.template.loader import render_to_string
 from django.conf import settings
 
 # Create your views here.
+
+
 class generateKey:
     @staticmethod
     def returnValue():
-        secret = pyotp.random_base32()        
+        secret = pyotp.random_base32()
         totp = pyotp.TOTP(secret, interval=600)
         OTP = totp.now()
-        return {"totp":secret,"OTP":OTP}
+        return {"totp": secret, "OTP": OTP}
+
 
 @api_view(['POST'])
 def registerUser(request):
     key = generateKey.returnValue()
-    data=request.data
+    data = request.data
     try:
-        user=User.objects.create(
+        user = User.objects.create(
             password=make_password(data['password']),
             email=data['email'],
             full_name=data['full_name'],
@@ -39,39 +42,39 @@ def registerUser(request):
             volunteer=data['volunteer'],
             organization=data['organization'],
             admin=data['admin'],
-            otp = key['OTP'],
-            activation_key = key['totp'],
+            otp=key['OTP'],
+            activation_key=key['totp'],
             active=data['active'],
             staff=data['staff'],
 
         )
-        user=User.objects.get(email=data['email'])
-        user.images=request.FILES.get('image')
+        user = User.objects.get(email=data['email'])
+        user.images = request.FILES.get('image')
         user.save()
-        serializer=UserSerializer(user,many=False)
+        serializer = UserSerializer(user, many=False)
 
-        email_template = render_to_string('signup_otp.html',{"otp":key['OTP'],"username":serializer.data['username'],"email":serializer.data['email']})    
+        email_template = render_to_string('signup_otp.html', {
+                                          "otp": key['OTP'], "username": serializer.data['username'], "email": serializer.data['email']})
         sign_up = EmailMultiAlternatives(
-                        "Otp Verification", 
-                        "Otp Verification",
-                        settings.EMAIL_HOST_USER, 
-                        [serializer.data['email']],
-                    )
+            "Otp Verification",
+            "Otp Verification",
+            settings.EMAIL_HOST_USER,
+            [serializer.data['email']],
+        )
         sign_up.attach_alternative(email_template, 'text/html')
         sign_up.send()
-
 
         return Response(serializer.data)
     except:
         if(User.objects.get(email=data['email'])):
             if(User.objects.get(username=data['username'])):
-                data={"message":"Email and Username already exists"}
+                data = {"message": "Email and Username already exists"}
             else:
-                data={"message":"Email already exists"}
+                data = {"message": "Email already exists"}
         else:
-            data={"message":"Username already exists"}
+            data = {"message": "Username already exists"}
 
-        return Response(data,status=status.HTTP_400_BAD_REQUEST)
+        return Response(data, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["POST"])
@@ -125,24 +128,24 @@ def RegisterVerify(request, otp, id):
         )
 
 
-
 @api_view(['POST'])
-def Resend_otp(request,id):
+def Resend_otp(request, id):
     key = generateKey.returnValue()
     print(key)
     try:
-        user=User.objects.get(id=id)
+        user = User.objects.get(id=id)
         user.otp = key['OTP']
-        user.activation_key= key['totp']
+        user.activation_key = key['totp']
         user.save()
-        serializer=UserSerializer(user,many=False)
-        email_template = render_to_string('signup_otp.html',{"otp":serializer.data['otp'],"username":serializer.data['username'],"email":serializer.data['email']})    
+        serializer = UserSerializer(user, many=False)
+        email_template = render_to_string('signup_otp.html', {
+                                          "otp": serializer.data['otp'], "username": serializer.data['username'], "email": serializer.data['email']})
         sign_up = EmailMultiAlternatives(
-                        "Otp Verification", 
-                        "Otp Verification",
-                        settings.EMAIL_HOST_USER, 
-                        [serializer.data['email']],
-                    )
+            "Otp Verification",
+            "Otp Verification",
+            settings.EMAIL_HOST_USER,
+            [serializer.data['email']],
+        )
         sign_up.attach_alternative(email_template, 'text/html')
         sign_up.send()
 
@@ -151,24 +154,12 @@ def Resend_otp(request,id):
             "sent": True,
         })
     except User.DoesNotExist:
-         return Response({
-             "message": "OTP resend error occured",
-             "sent": False,
-         })
+        return Response({
+            "message": "OTP resend error occured",
+            "sent": False,
+        })
 
 
 class UserUpdate(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserupdateSerializer
-
-
-
-
-
-
-
-
-
-
-
-

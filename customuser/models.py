@@ -3,6 +3,8 @@ from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
 from django.contrib.auth.hashers import make_password
+
+
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None):
         """
@@ -44,31 +46,36 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+
 class User(AbstractBaseUser):
-    email = models.EmailField( verbose_name='email address',max_length=255,unique=True,)
-    full_name=models.CharField(max_length=255,null=True)
-    username=models.CharField(max_length=255,null=True,unique=True)
-    address=models.CharField(null=True,blank=True,max_length=100)
-    last_login=models.DateField(auto_now_add=True,null=True)
-    phone = models.CharField(blank=True,max_length=20)
-    facebook=models.URLField(blank=True,null=True,max_length=255)
-    instagram=models.URLField(blank=True,null=True,max_length=255)
-    twitter=models.URLField(blank=True,null=True,max_length=255)
-    website=models.URLField(blank=True,null=True,max_length=255)
-    images=models.ImageField(default='avatar.jpg',upload_to='profile_Images')
-    description=models.TextField(max_length=2000,null=True)
+    email = models.EmailField(
+        verbose_name='email address', max_length=255, unique=True,)
+    full_name = models.CharField(max_length=255, null=True)
+    username = models.CharField(max_length=255, null=True, unique=True)
+    address = models.CharField(null=True, blank=True, max_length=100)
+    last_login = models.DateField(auto_now_add=True, null=True)
+    phone = models.CharField(blank=True, max_length=20)
+    facebook = models.URLField(blank=True, null=True, max_length=255)
+    instagram = models.URLField(blank=True, null=True, max_length=255)
+    twitter = models.URLField(blank=True, null=True, max_length=255)
+    website = models.URLField(blank=True, null=True, max_length=255)
+    images = models.ImageField(
+        default='avatar.jpg', upload_to='profile_Images')
+    description = models.TextField(max_length=2000, null=True)
     volunteer = models.BooleanField(default=True)
-    organization = models.BooleanField(default=False) # a admin user; non super-user
-    admin = models.BooleanField(default=False) # a superuser
-    otp = models.IntegerField(null=True,blank=True)
-    activation_key = models.CharField(max_length=150,blank=True,null=True)
-    active=models.BooleanField(default=False)
-    staff=models.BooleanField(default=False)
+    organization = models.BooleanField(
+        default=False)  # a admin user; non super-user
+    admin = models.BooleanField(default=False)  # a superuser
+    otp = models.IntegerField(null=True, blank=True)
+    activation_key = models.CharField(max_length=150, blank=True, null=True)
+    active = models.BooleanField(default=False)
+    staff = models.BooleanField(default=False)
     # notice the absence of a "Password field", that is built in.
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = [] # Email & Password are required by default.
+    REQUIRED_FIELDS = []  # Email & Password are required by default.
     objects = UserManager()
+
     def get_full_name(self):
         # The user is identified by their email address
         return self.email

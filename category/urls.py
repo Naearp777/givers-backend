@@ -1,8 +1,8 @@
 from django.urls import path
 from .import views
 
-urlpatterns=[
+urlpatterns = [
 
-    path('api/events_category/',views.category_event,name='event_category'),
+    path('api/events_category/', views.category_event, name='event_category'),
 
 ]

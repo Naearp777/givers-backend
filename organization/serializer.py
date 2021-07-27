@@ -8,21 +8,24 @@ from customuser.serializers import UserSerializer
 
 class approvalSerializer(serializers.ModelSerializer):
     class Meta:
-        model=requestevents
-        fields='__all__'
-        extra_kwargs = {'user': {'required': False},'event': {'required': False}}
+        model = requestevents
+        fields = '__all__'
+        extra_kwargs = {'user': {'required': False},
+                        'event': {'required': False}}
 
 
 class requestedSerializer(serializers.ModelSerializer):
-    event=EventSerializer(read_only=True,many=False)
-    user=UserSerializer(read_only=True,many=False)
+    event = EventSerializer(read_only=True, many=False)
+    user = UserSerializer(read_only=True, many=False)
+
     class Meta:
-        model=requestevents
-        fields='__all__'
+        model = requestevents
+        fields = '__all__'
 
 
 class RequestFormSerializer(serializers.ModelSerializer):
-    event=EventSerializer(read_only=True,many=False)
+    event = EventSerializer(read_only=True, many=False)
+
     class Meta:
-        model=requestform
-        fields='__all__'
+        model = requestform
+        fields = '__all__'
