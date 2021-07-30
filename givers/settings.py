@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+from datetime import timedelta
 import os
 from pathlib import Path
 
@@ -48,16 +49,16 @@ INSTALLED_APPS = [
     'validators.apps.ValidatorsConfig',
     'django_rest_passwordreset',
     'category.apps.CategoryConfig',
-    'miscellaneous.apps.MiscellaneousConfig'
-    
+    'miscellaneous.apps.MiscellaneousConfig',
+    'admin.apps.AdminConfig'
+
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ) 
+    )
 }
 
-from datetime import timedelta
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
@@ -102,7 +103,7 @@ ROOT_URLCONF = 'givers.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates'),],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -193,21 +194,21 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_ROOT=(BASE_DIR/ 'media')
-MEDIA_URL ='/media/'
+MEDIA_ROOT = (BASE_DIR / 'media')
+MEDIA_URL = '/media/'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST='smtp.gmail.com'
-EMAIL_PORT=587
-EMAIL_USE_TLS=True
-EMAIL_HOST_USER='volunteermanagementsoftware@gmail.com'
-EMAIL_HOST_PASSWORD='!volunteer!'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'volunteermanagementsoftware@gmail.com'
+EMAIL_HOST_PASSWORD = '!volunteer!'
 
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
-       'http://localhost:3000',
-       'http://localhost:8000',
+    'http://localhost:3000',
+    'http://localhost:8000',
 )
