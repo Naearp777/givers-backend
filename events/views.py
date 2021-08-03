@@ -28,8 +28,8 @@ def Event_display_id(request, E_id):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def Event_display_specific(request, username):
-    user = User.objects.get(username=username)
+def Event_display_specific(request, E_id):
+    user = User.objects.get(id=E_id)
     event = Events.objects.filter(user=user, completed=False)
     serializer = EventSerializer(event, many=True)
     return Response(serializer.data)
@@ -37,8 +37,8 @@ def Event_display_specific(request, username):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def Event_display_completed(request, username):
-    user = User.objects.get(username=username)
+def Event_display_completed(request, E_id):
+    user = User.objects.get(id=E_id)
     event = Events.objects.filter(user=user, completed=True)
     serializer = EventSerializer(event, many=True)
     return Response(serializer.data)
