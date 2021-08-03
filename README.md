@@ -43,10 +43,9 @@ To migrate the necessary changes to the newly created database run the following
 ./manage.py migrate
 ```
 
-NOTE: This only propagates the changes to the database schema to your newly created database. It doesn't add any data entries to the database. For a sample of data entries please contact the team.
 
 ### First Time setup
-During the first time setup, the **admin user** should be created from the python shell. So in order to create an admin user, run the following command from the project root directory.
+During the first time setup, the **superadmin user** should be created.
 
 ```sh
 ./manage.py createsuperuser
