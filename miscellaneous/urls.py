@@ -9,7 +9,7 @@ urlpatterns = [
     path('api/events/', views.show_event_postedtime, name='show_posted_latest'),
     path('api/events/search/', views.searchevents, name='search_event'),
     path('api/users/search/', views.searchuser, name='search_user'),
-    path('api/show/approval/<int:E_id>/',
+    path('api/show/number/<int:E_id>/',
          views.show_number_approved_requested, name='approval_no'),
-    
+
 ]
