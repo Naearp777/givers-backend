@@ -60,3 +60,11 @@ Now the schema of various tables are setup in your newly created database. You c
 ```
 
 This will run a development server in localhost on port 8000. The development server will not be accessible on the LAN just now.
+
+
+#### Project Members
+
+-   **Arpan Pokharel** (075BCT015)
+-   **Chirag Lamsal** (075BCT032)
+-   **Bibek Basyal** (075BCT097)
+-   **Saugat Kafley** (075BCT099)
