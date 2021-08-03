@@ -1,7 +1,8 @@
 from .serializers import UserSerializer, UserresendotpSerializer, UserupdateSerializer
 from .models import User
 from rest_framework import status, generics
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.auth.hashers import make_password
 import pyotp
@@ -78,6 +79,7 @@ def registerUser(request):
 
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def RegisterVerify(request, otp, id):
     try:
         user = User.objects.get(id=id, otp=otp, active=False)
@@ -129,6 +131,7 @@ def RegisterVerify(request, otp, id):
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def Resend_otp(request, id):
     key = generateKey.returnValue()
     print(key)

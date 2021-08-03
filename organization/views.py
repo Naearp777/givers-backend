@@ -1,7 +1,8 @@
 from volunteer.models import requestevents
 from .serializer import RequestFormSerializer, approvalSerializer, requestedSerializer
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from customuser.models import User
 from events.models import Events
@@ -11,6 +12,7 @@ from .models import requestform
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def showrequest(request, E_id, V_id):
     try:
         approval = requestevents.objects.filter(user_id=V_id, event_id=E_id)
@@ -21,6 +23,7 @@ def showrequest(request, E_id, V_id):
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def approval(request, E_id, V_id):
     try:
         approval = requestevents.objects.get(user_id=V_id, event_id=E_id)
@@ -35,6 +38,7 @@ def approval(request, E_id, V_id):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def show_all_requested(request, E_id):
     try:
         requested = requestevents.objects.filter(
@@ -46,6 +50,7 @@ def show_all_requested(request, E_id):
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def requestforms(request):
     data = request.data
     try:
@@ -63,6 +68,7 @@ def requestforms(request):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def getrequestedform(request, E_id):
     try:
         requestedform = requestform.objects.get(event_id=E_id)

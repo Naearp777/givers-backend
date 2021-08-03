@@ -2,7 +2,8 @@
 from .models import interestedevents, requestevents
 from .serializers import interestedSerializervolunteer, requesteventSerializervolunteer
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from customuser.models import User
 from events.models import Events
@@ -10,6 +11,7 @@ from events.models import Events
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def requestevent(request, V_id, E_id):
     if requestevents.objects.filter(user_id=V_id, event_id=E_id).exists():
         message = {'message': 'You have already requested to this event'}
@@ -68,6 +70,7 @@ def requestevent(request, V_id, E_id):
 #          return Response(status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def showinterested(request, V_id):
     try:
         interested = interestedevents.objects.filter(
@@ -79,6 +82,7 @@ def showinterested(request, V_id):
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def interestedevent(request):
     data = request.data
     try:

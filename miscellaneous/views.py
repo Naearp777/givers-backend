@@ -1,6 +1,7 @@
 from typing import Counter
 from django.shortcuts import render
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from customuser.models import User
 from events.models import Events
@@ -13,6 +14,7 @@ from volunteer.serializers import requesteventSerializervolunteer
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def show_specific_category(request, category_id):
     try:
         category = Events.objects.filter(category=category_id)
@@ -23,6 +25,7 @@ def show_specific_category(request, category_id):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def show_event_desc(request):
     try:
         category = Events.objects.order_by('-end_date')
@@ -33,6 +36,7 @@ def show_event_desc(request):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def show_event_postedtime(request):
     try:
         category = Events.objects.order_by('-posted_at')
@@ -43,6 +47,7 @@ def show_event_postedtime(request):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def searchevents(request):
     query = request.query_params.get('keyword')
     print('query:', query)
@@ -55,6 +60,7 @@ def searchevents(request):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def searchuser(request):
     query = request.query_params.get('keyword')
     print('query:', query)
@@ -67,6 +73,7 @@ def searchuser(request):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def show_number_approved_requested(request, E_id):
     try:
         approval_no = requestevents.objects.filter(
