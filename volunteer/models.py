@@ -19,6 +19,7 @@ class requestevents(models.Model):
     # description=models.TextField(max_length=2000,null=True)
     request_volunteer = models.BooleanField(default=False)
     approved = models.BooleanField(default=False)
+    pending = models.BooleanField(default=True)
 
     def __str__(self):
         return f'{self.user}'

@@ -77,7 +77,7 @@ def searchuser(request):
 def show_number_approved_requested(request, E_id):
     try:
         approval_no = requestevents.objects.filter(
-            event_id=E_id, approved=True).count()
+            event_id=E_id, pending=False).count()
         requested_no = requestevents.objects.filter(
             event_id=E_id, request_volunteer=True).count()
         message = {"approval": approval_no, "requested": requested_no}
