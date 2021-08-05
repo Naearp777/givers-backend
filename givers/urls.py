@@ -28,4 +28,5 @@ urlpatterns = [
     path('',include("validators.urls")),
     path('',include("category.urls")),
     path('',include("miscellaneous.urls")),
+    path('',include("verify.urls")),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
