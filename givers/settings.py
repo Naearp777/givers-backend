@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django_rest_passwordreset',
     'category.apps.CategoryConfig',
     'miscellaneous.apps.MiscellaneousConfig',
+    'verify.apps.VerifyConfig',
 
 ]
 REST_FRAMEWORK = {

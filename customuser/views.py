@@ -47,10 +47,12 @@ def registerUser(request):
             activation_key=key['totp'],
             active=data['active'],
             staff=data['staff'],
+            verify=data['verify']
 
         )
         user = User.objects.get(email=data['email'])
         user.images = request.FILES.get('image')
+        user.identity = request.FILES.get('identity')
         user.save()
         serializer = UserSerializer(user, many=False)
 

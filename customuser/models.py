@@ -70,6 +70,9 @@ class User(AbstractBaseUser):
     activation_key = models.CharField(max_length=150, blank=True, null=True)
     active = models.BooleanField(default=False)
     staff = models.BooleanField(default=False)
+    identity = models.FileField(
+        default='avatar.jpg', upload_to='Identity')
+    verify = models.BooleanField(default=False)
     # notice the absence of a "Password field", that is built in.
 
     USERNAME_FIELD = 'email'
