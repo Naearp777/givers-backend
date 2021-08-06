@@ -47,28 +47,6 @@ def requestevent(request, V_id, E_id):
                 'detail': 'requestevents with this content already exists'}
             return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
-# @api_view(['POST'])
-# def showrequest(request,E_id,V_id):
-#     try:
-#         approval=requestevents.objects.filter(user_id=V_id ,event_id=E_id)
-#         serializer=approvalSerializer(approval,many=True)
-#         return Response(serializer.data,status=status.HTTP_200_OK)
-#     except requestevents.DoesNotExist:
-#          return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-# @api_view(['POST'])
-# def approval(request,E_id,V_id):
-#     try:
-#         approval=requestevents.objects.get(user_id=V_id ,event_id=E_id)
-#         serializer=approvalSerializer(approval,data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response (serializer.data)
-#         else:
-#             return Response ({'status':'Failed'})
-#     except requestevents.DoesNotExist:
-#          return Response(status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -97,3 +75,15 @@ def interestedevent(request):
     except:
         message = {'detail': 'You are already interested in this Event'}
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def show_requested_specific_user(request, V_id):
+    try:
+        requested = interestedevents.objects.filter(
+            user_id=V_id, request_volunteer=True)
+        serializer = interestedSerializervolunteer(requested, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except requestevents.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
