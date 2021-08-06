@@ -32,6 +32,7 @@ def requestevent(request, V_id, E_id):
                 request_volunteer=data['request_volunteer'],
                 approved=data['approved'],
                 pending=data['pending'],
+                file_1=data['file_1'],
             )
             serializer = requesteventSerializervolunteer(
                 requestevent, many=False)

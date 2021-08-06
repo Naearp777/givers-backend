@@ -91,6 +91,7 @@ def requestforms(request):
             ques_1=data['ques_1'],
             ques_2=data['ques_2'],
             ques_3=data['ques_3'],
+            file_1=data['file_1'],
         )
         serializer = RequestFormSerializer(form, many=False)
         return Response(serializer.data)

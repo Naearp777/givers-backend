@@ -16,6 +16,7 @@ class requestevents(models.Model):
     ans_1 = models.TextField(max_length=2000, null=True)
     ans_2 = models.TextField(max_length=2000, null=True)
     ans_3 = models.TextField(max_length=2000, null=True)
+    file_1=models.TextField(max_length=200,null=True)
     # description=models.TextField(max_length=2000,null=True)
     request_volunteer = models.BooleanField(default=False)
     approved = models.BooleanField(default=False)

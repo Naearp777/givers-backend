@@ -8,6 +8,7 @@ class requestform(models.Model):
     ques_1 = models.TextField(max_length=2000, null=True)
     ques_2 = models.TextField(max_length=2000, null=True)
     ques_3 = models.TextField(max_length=2000, null=True)
+    file_1 = models.TextField(max_length=2000, null=True)
 
     def __str__(self):
         return f'{self.event}'

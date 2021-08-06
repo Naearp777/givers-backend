@@ -7,6 +7,8 @@ from customuser.serializers import UserSerializer
 
 
 class approvalSerializer(serializers.ModelSerializer):
+    event = EventSerializer(read_only=True, many=False)
+    user = UserSerializer(read_only=True, many=False)
     class Meta:
         model = requestevents
         fields = '__all__'
