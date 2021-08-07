@@ -43,7 +43,7 @@ def verification(request, U_id):
 
         return Response({"success": True})
 
-    except requestevents.DoesNotExist:
+    except User.DoesNotExist:
         return Response({"success": False}, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -51,8 +51,19 @@ def verification(request, U_id):
 @permission_classes([IsAuthenticated])
 def showverifyrequest(request):
     try:
-        approval = requestevents.objects.filter(verify=False)
+        approval = User.objects.filter(verify=False, admin=False, staff=False)
         serializer = UserSerializer(approval, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    except requestevents.DoesNotExist:
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def showalluser(request):
+    try:
+        user = User.objects.filter(admin=False, staff=False)
+        serializer = UserSerializer(user, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except User.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)

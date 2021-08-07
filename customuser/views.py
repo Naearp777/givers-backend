@@ -81,7 +81,6 @@ def registerUser(request):
 
 
 @api_view(["POST"])
-@permission_classes([IsAuthenticated])
 def RegisterVerify(request, otp, id):
     try:
         user = User.objects.get(id=id, otp=otp, active=False)
@@ -133,7 +132,6 @@ def RegisterVerify(request, otp, id):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
 def Resend_otp(request, id):
     key = generateKey.returnValue()
     print(key)
