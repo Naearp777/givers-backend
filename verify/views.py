@@ -73,7 +73,7 @@ def showalluser(request):
 @permission_classes([IsAuthenticated])
 def showspecificrequest(request, U_id):
     try:
-        sp_user = User.objects.get(U_id)
+        sp_user = User.objects.get(id=U_id)
         serializer = UserSerializer(sp_user, many=False)
         return Response(serializer.data, status=status.HTTP_200_OK)
     except User.DoesNotExist:
