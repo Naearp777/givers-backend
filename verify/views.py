@@ -16,11 +16,12 @@ def verification(request, U_id):
     try:
         user = User.objects.get(id=U_id)
         user.verify = request.data['verify']
+        user.reject = request.data['reject']
         user.save()
         serializer = UserSerializer(user, many=False)
         if(serializer.data['verify'] == True):
             email_template = render_to_string('Verified.html', {
-                                              "username": serializer.data['name']})
+                                              "username": serializer.data['username']})
             sign_up = EmailMultiAlternatives(
                 "Verified",
                 "Verified",
@@ -51,7 +52,8 @@ def verification(request, U_id):
 @permission_classes([IsAuthenticated])
 def showverifyrequest(request):
     try:
-        approval = User.objects.filter(verify=False, admin=False, staff=False)
+        approval = User.objects.filter(
+            verify=False, admin=False, staff=False, reject=False)
         serializer = UserSerializer(approval, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     except User.DoesNotExist:
