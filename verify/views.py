@@ -67,3 +67,14 @@ def showalluser(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
     except User.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def showspecificrequest(request, U_id):
+    try:
+        sp_user = User.objects.get(U_id)
+        serializer = UserSerializer(sp_user, many=False)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)

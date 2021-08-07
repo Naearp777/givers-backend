@@ -7,6 +7,7 @@ urlpatterns = [
          views.verification, name='verification'),
     path('api/verification/alluser/',
          views.showverifyrequest, name='all_verify_list'),
-    path('api/showalluser/', views.showalluser, name="show_all_user")
-
+    path('api/showalluser/', views.showalluser, name="show_all_user"),
+    path('api/showspecificuser/', views.showspecificrequest,
+         name="show_specific_user")
 ]
