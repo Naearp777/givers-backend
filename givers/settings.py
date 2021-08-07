@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'cloudinary_storage',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -51,6 +52,7 @@ INSTALLED_APPS = [
     'category.apps.CategoryConfig',
     'miscellaneous.apps.MiscellaneousConfig',
     'verify.apps.VerifyConfig',
+    'cloudinary',
 
 ]
 REST_FRAMEWORK = {
@@ -214,3 +216,10 @@ CORS_ORIGIN_WHITELIST = (
     'https://givers.vercel.app',
 
 )
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dunajzkju',
+    'API_KEY': '668574617868313',
+    'API_SECRET': 'zE_qZ99zG_ki-xOv3FBRwKL6Obc'
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
