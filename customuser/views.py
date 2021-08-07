@@ -47,7 +47,8 @@ def registerUser(request):
             activation_key=key['totp'],
             active=data['active'],
             staff=data['staff'],
-            verify=data['verify']
+            verify=data['verify'],
+            reject=data['reject']
 
         )
         user = User.objects.get(email=data['email'])
