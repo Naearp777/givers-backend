@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-+q!f5w&n$lq+&w^f97sm=9rs@s8^_uf=7h)5!y9!=r_9^%sz*(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['givers-backend.herokuapp.com']
+ALLOWED_HOSTS = ['givers-backend.herokuapp.com', '*']
 
 
 # Application definition
@@ -192,8 +192,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# The URL to use when referring to static files (where they will be served from)
 STATIC_URL = '/static/'
+
+# The absolute path to the directory where collectstatic will collect static files for deployment.
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Extra places for collectstatic to find static files.
+
+
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -213,7 +223,6 @@ EMAIL_HOST_PASSWORD = '!volunteer!'
 
 
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'http://localhost:8000',
@@ -227,3 +236,4 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': 'zE_qZ99zG_ki-xOv3FBRwKL6Obc'
 }
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
