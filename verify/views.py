@@ -31,7 +31,6 @@ def verification(request, U_id):
             sign_up.attach_alternative(email_template, 'text/html')
             sign_up.send()
             data = {"success": True}
-            print(data)
             return Response(data)
         if(serializer.data['reject'] == True):
             email_template = render_to_string('reject_user.html', {
@@ -45,9 +44,9 @@ def verification(request, U_id):
             sign_up.attach_alternative(email_template, 'text/html')
             sign_up.send()
             data = {"success": True}
-            print(data)
             return Response(data)
-
+        data = {"success": True}
+        return Response(data)
     except User.DoesNotExist:
         return Response({"success": False}, status=status.HTTP_400_BAD_REQUEST)
 
