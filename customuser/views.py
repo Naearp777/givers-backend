@@ -167,3 +167,11 @@ def Resend_otp(request, id):
 class UserUpdate(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserupdateSerializer
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_User_Profile(request, U_id):
+    user = User.objects.get(id=U_id)
+    serializer = UserSerializer(user, many=False)
+    return Response(serializer.data)

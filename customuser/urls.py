@@ -10,4 +10,6 @@ urlpatterns = [
          views.Resend_otp, name='resend_otp'),
     path('api/user/update/<int:pk>/',
          views.UserUpdate.as_view(), name='update_user'),
+    path('api/user/profile/<int:U_id>/',
+         views.get_User_Profile, name='get_user_profile'),
 ]
