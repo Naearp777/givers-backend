@@ -20,7 +20,7 @@ def verification(request, U_id):
         user.save()
         serializer = UserSerializer(user, many=False)
         if(serializer.data['verify'] == True):
-            email_template = render_to_string('Verified.html', {
+            email_template = render_to_string('verified.html', {
                                               "username": serializer.data['username']})
             sign_up = EmailMultiAlternatives(
                 "Verified",
