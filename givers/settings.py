@@ -219,6 +219,7 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'http://localhost:8000',
     'https://givers.vercel.app',
+    'https://www.givers.tk',
 
 )
 
