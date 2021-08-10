@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-+q!f5w&n$lq+&w^f97sm=9rs@s8^_uf=7h)5!y9!=r_9^%sz*('
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -208,8 +208,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'volunteermanagementsoftware@gmail.com'
-EMAIL_HOST_PASSWORD = 'dtxpfeyluqxvdujw'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = 'Givers Team <noreply@volunteermanagementsystem.com>'
 
 
@@ -224,8 +224,8 @@ CORS_ORIGIN_WHITELIST = (
 )
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dunajzkju',
-    'API_KEY': '668574617868313',
-    'API_SECRET': 'zE_qZ99zG_ki-xOv3FBRwKL6Obc'
+    'CLOUD_NAME': os.environ.get('CLOUD_NAME'),
+    'API_KEY': os.environ.get('API_KEY'),
+    'API_SECRET': os.environ.get('API_SECRET')
 }
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
