@@ -223,6 +223,11 @@ CORS_ORIGIN_WHITELIST = (
 
 )
 
+
+# ----------------------------for production only------------------------------------
+# in windows console run command "" set SECRET_KEY=givers""
+# make debug=True
+
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.environ.get('CLOUD_NAME'),
     'API_KEY': os.environ.get('API_KEY'),
