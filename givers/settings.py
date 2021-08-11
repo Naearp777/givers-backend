@@ -135,27 +135,6 @@ DATABASES = {
 db_from_env = dj_database_url.config(conn_max_age=600)
 DATABASES['default'].update(db_from_env)
 
-# DATABASES = {
-
-#     'default': {
-
-#         'ENGINE': 'django.db.backends.postgresql',
-
-#         'NAME': 'postgres',
-
-#         'USER': 'postgres',
-
-#         'PASSWORD': '123',
-
-#         'HOST': 'localhost',
-
-#         'PORT': '5432',
-
-#     }
-
-# }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -223,10 +202,36 @@ CORS_ORIGIN_WHITELIST = (
 
 )
 
+# if you are using postgres comment the above DATABASE code in line 129
+# --------------------------------**********--------------------------------
 
-# ----------------------------for production only------------------------------------
+
+# DATABASES = {
+
+#     'default': {
+
+#         'ENGINE': 'django.db.backends.postgresql',
+
+#         'NAME': 'postgres',
+
+#         'USER': 'postgres',
+
+#         'PASSWORD': '123',
+
+#         'HOST': 'localhost',
+
+#         'PORT': '5432',
+
+#     }
+
+# }
+
+
+# ----------------------------for debug only------------------------------------
 # in windows console run command "" set SECRET_KEY=givers""
 # make debug=True
+# comment line 135 and 136 (because it is links to external database)
+# comment below codes
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.environ.get('CLOUD_NAME'),
