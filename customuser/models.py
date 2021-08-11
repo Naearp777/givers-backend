@@ -56,6 +56,7 @@ class User(AbstractBaseUser):
     country = models.ForeignKey(Country, on_delete=models.CASCADE, null=True)
     province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
     district = models.ForeignKey(District, on_delete=models.CASCADE, null=True)
+    gender = models.CharField(max_length=100, null=True)
     municipality = models.ForeignKey(
         Municipality, on_delete=models.CASCADE, null=True)
     ward = models.ForeignKey(Ward, on_delete=models.CASCADE, null=True)

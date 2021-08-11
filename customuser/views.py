@@ -42,6 +42,7 @@ def registerUser(request):
             ward=Ward.objects.get(ward=data['ward']),
             skills=Skills.objects.get(skills=data['skills']),
             address=data['address'],
+            gender=data['gender'],
             phone=data['phone'],
             facebook=data['facebook'],
             instagram=data['instagram'],
