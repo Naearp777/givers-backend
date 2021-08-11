@@ -230,7 +230,7 @@ CORS_ORIGIN_WHITELIST = (
 # ----------------------------for debug only------------------------------------
 # in windows console run command "" set SECRET_KEY=givers""
 # make debug=True
-# comment line 135 and 136 (because it is links to external database)
+# comment line 135 and 136 (because it links to external database)
 # comment below codes
 
 CLOUDINARY_STORAGE = {

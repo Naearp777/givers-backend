@@ -19,6 +19,7 @@ class Country(models.Model):
 
 class Province(models.Model):
     province = models.CharField(null=True, unique=True, max_length=100)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return f'{self.province}'
@@ -26,6 +27,7 @@ class Province(models.Model):
 
 class District(models.Model):
     district = models.CharField(null=True, unique=True, max_length=100)
+    province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return f'{self.district}'
@@ -33,13 +35,17 @@ class District(models.Model):
 
 class Municipality(models.Model):
     Municipality = models.CharField(null=True, unique=True, max_length=100)
+    district = models.ForeignKey(District, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return f'{self.Municipality}'
 
 
 class Ward(models.Model):
-    ward = models.CharField(null=True, unique=True, max_length=100)
+    ward = models.PositiveSmallIntegerField(
+        null=True, unique=True)
+    municipality = models.ForeignKey(
+        Municipality, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return f'{self.ward}'
