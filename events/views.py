@@ -7,7 +7,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from customuser.models import User
-from events.models import EventCategory
+from category.models import EventCategory
 
 
 @api_view(['GET'])

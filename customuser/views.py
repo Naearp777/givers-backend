@@ -9,6 +9,7 @@ import pyotp
 from django.core.mail.message import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.conf import settings
+from category.models import Country, Province, District, Municipality, Skills, Ward
 
 # Create your views here.
 
@@ -33,6 +34,13 @@ def registerUser(request):
             full_name=data['full_name'],
             last_login=data['last_login'],
             username=data['username'],
+            country=Country.objects.get(country=data['country']),
+            province=Province.objects.get(province=data['province']),
+            district=District.objects.get(district=data['district']),
+            municipality=Municipality.objects.get(
+                municipality=data['municipality']),
+            ward=Ward.objects.get(ward=data['ward']),
+            skills=Skills.objects.get(skills=data['skills']),
             address=data['address'],
             phone=data['phone'],
             facebook=data['facebook'],

@@ -1,4 +1,4 @@
-from category.models import Country, District, Municipality, Province, Ward
+from category.models import Country, District, Municipality, Province, Skills, Ward
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
@@ -80,7 +80,7 @@ class User(AbstractBaseUser):
         default='avatar.jpg', upload_to='Identity')
     verify = models.BooleanField(default=False)
     reject = models.BooleanField(default=False)
-    # notice the absence of a "Password field", that is built in.
+    skills = models.ForeignKey(Skills, on_delete=models.CASCADE, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []  # Email & Password are required by default.
@@ -98,21 +98,19 @@ class User(AbstractBaseUser):
         return self.email
 
     def has_perm(self, perm, obj=None):
-        "Does the user have a specific permission?"
-        # Simplest possible answer: Yes, always
+
         return True
 
     def has_module_perms(self, app_label):
-        "Does the user have permissions to view the app `app_label`?"
-        # Simplest possible answer: Yes, always
+
         return True
 
     @property
     def is_staff(self):
-        "Is the user a member of staff?"
+
         return self.staff
 
     @property
     def is_admin(self):
-        "Is the user a admin member?"
+
         return self.admin
