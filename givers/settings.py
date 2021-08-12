@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'miscellaneous.apps.MiscellaneousConfig',
     'verify.apps.VerifyConfig',
     'cloudinary',
+    'invitation.apps.InvitationConfig'
 
 ]
 REST_FRAMEWORK = {
