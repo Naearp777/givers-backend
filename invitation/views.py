@@ -47,3 +47,13 @@ def invite_display_id(request, U_id):
     invitation = Invitation.objects.get(user_id=U_id)
     serializer = InvitationSerializer(invitation, many=False)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def invite_display_id_read(request, I_id):
+    invitation = Invitation.objects.get(id=I_id)
+    invitation.read = request.data['read']
+    invitation.save()
+    serializer = InvitationSerializer(invitation, many=False)
+    return Response(serializer.data)
