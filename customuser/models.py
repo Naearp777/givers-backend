@@ -81,7 +81,7 @@ class User(AbstractBaseUser):
         default='avatar.jpg', upload_to='Identity')
     verify = models.BooleanField(default=False)
     reject = models.BooleanField(default=False)
-    skills = models.ForeignKey(Skills, on_delete=models.CASCADE, null=True)
+    skills = models.ManyToManyField(Skills, blank=True, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []  # Email & Password are required by default.
