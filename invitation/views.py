@@ -6,6 +6,9 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Invitation
 from rest_framework.response import Response
 from rest_framework import status
+from django.template.loader import render_to_string
+from django.core.mail.message import EmailMultiAlternatives
+from django.conf import settings
 # Create your views here.
 
 
@@ -21,6 +24,17 @@ def invite(request, U_id, E_id):
             read=data['read'],
         )
         serializer = InvitationSerializer(invite, many=False)
+        user = User.objects.get(id=U_id)
+        email_template = render_to_string('invitation.html')
+        sign_up = EmailMultiAlternatives(
+            "Otp Verification",
+            "Otp Verification",
+            settings.EMAIL_HOST_USER,
+            [user.email],
+        )
+        sign_up.attach_alternative(email_template, 'text/html')
+        sign_up.send()
+
         return Response(serializer.data)
     except:
         message = {'detail': 'Invitation already exists'}
