@@ -26,14 +26,14 @@ def invite(request, U_id, E_id):
         serializer = InvitationSerializer(invite, many=False)
         user = User.objects.get(id=U_id)
         email_template = render_to_string('invitation.html')
-        sign_up = EmailMultiAlternatives(
-            "Otp Verification",
-            "Otp Verification",
+        invited = EmailMultiAlternatives(
+            "You are invited",
+            "You are invited",
             settings.EMAIL_HOST_USER,
             [user.email],
         )
-        sign_up.attach_alternative(email_template, 'text/html')
-        sign_up.send()
+        invited.attach_alternative(email_template, 'text/html')
+        invited.send()
 
         return Response(serializer.data)
     except:

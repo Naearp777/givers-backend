@@ -43,25 +43,25 @@ def approval(request, E_id, V_id):
         if(serializer.data['approved'] == True):
             email_template = render_to_string('Approved.html', {
                                               "event": eventname.data['name'], "username": user_name.data['username']})
-            sign_up = EmailMultiAlternatives(
+            approved = EmailMultiAlternatives(
                 "Approved",
                 "Approved",
                 settings.EMAIL_HOST_USER,
                 [user_name.data['email']],
             )
-            sign_up.attach_alternative(email_template, 'text/html')
-            sign_up.send()
+            approved.attach_alternative(email_template, 'text/html')
+            approved.send()
         elif(serializer.data['approved'] == False):
             email_template = render_to_string('Rejected.html', {
                                               "event": eventname.data['name'], "username": user_name.data['username']})
-            sign_up = EmailMultiAlternatives(
+            rejected = EmailMultiAlternatives(
                 "Rejected",
                 "Rejected",
                 settings.EMAIL_HOST_USER,
                 [user_name.data['email']],
             )
-            sign_up.attach_alternative(email_template, 'text/html')
-            sign_up.send()
+            rejected.attach_alternative(email_template, 'text/html')
+            rejected.send()
 
         return Response({"success": True})
 
