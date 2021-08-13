@@ -37,15 +37,15 @@ def invite(request, U_id, E_id):
 
         return Response(serializer.data)
     except:
-        message = {'detail': 'Invitation already exists'}
-        return Response(message, status=status.HTTP_400_BAD_REQUEST)
+        data = {'message': 'Invitation already exists'}
+        return Response(data, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def invite_display_id(request, U_id):
     invitation = Invitation.objects.get(user_id=U_id)
-    serializer = InvitationSerializer(invitation, many=False)
+    serializer = InvitationSerializer(invitation, many=True)
     return Response(serializer.data)
 
 
@@ -53,7 +53,7 @@ def invite_display_id(request, U_id):
 @permission_classes([IsAuthenticated])
 def invite_display_id_read(request, I_id):
     invitation = Invitation.objects.get(id=I_id)
-    invitation.read = request.data['read']
+    invitation.read = True
     invitation.save()
     serializer = InvitationSerializer(invitation, many=False)
     return Response(serializer.data)
