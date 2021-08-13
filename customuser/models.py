@@ -1,4 +1,4 @@
-from category.models import Country, District, Municipality, Province, Skills, Ward
+from category.models import Skills
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
@@ -53,13 +53,12 @@ class User(AbstractBaseUser):
         verbose_name='email address', max_length=255, unique=True,)
     full_name = models.CharField(max_length=255, null=True)
     username = models.CharField(max_length=255, null=True, unique=True)
-    country = models.ForeignKey(Country, on_delete=models.CASCADE, null=True)
-    province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
-    district = models.ForeignKey(District, on_delete=models.CASCADE, null=True)
+    province = models.CharField(max_length=255, null=True)
+    district = models.CharField(max_length=255, null=True)
     gender = models.CharField(max_length=100, null=True)
-    municipality = models.ForeignKey(
-        Municipality, on_delete=models.CASCADE, null=True)
-    ward = models.ForeignKey(Ward, on_delete=models.CASCADE, null=True)
+    municipality = models.CharField(max_length=255, null=True)
+    ward = models.CharField(max_length=255, null=True)
+    address = models.CharField(max_length=255, null=True)
     last_login = models.DateField(auto_now_add=True, null=True)
     phone = models.CharField(blank=True, max_length=20)
     facebook = models.URLField(blank=True, null=True, max_length=255)
