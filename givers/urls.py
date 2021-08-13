@@ -22,6 +22,8 @@ admin.site.site_title = "Givers"
 admin.site.index_title = "Welcome to Givers"
 
 urlpatterns = [
+    path('jet/', include('jet.urls', 'jet')),
+    path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
     path('admin/', admin.site.urls),
     path('', include("customuser.urls")),
     path('', include("events.urls")),

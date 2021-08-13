@@ -33,6 +33,8 @@ ALLOWED_HOSTS = ['givers-backend.herokuapp.com', '*']
 # Application definition
 
 INSTALLED_APPS = [
+    'jet.dashboard',
+    'jet',
     'django.contrib.admin',
     'django.contrib.auth',
     'cloudinary_storage',
