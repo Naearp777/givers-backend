@@ -29,5 +29,26 @@
             "type": "shell",
             "command": "git push heroku master"
         },
+        {
+            "label": "Git Add",
+            "type": "shell",
+            "command": "git add ."
+        },
+        {
+            "label": "Git Commit",
+            "type": "shell",
+            "command": "git commit",
+            "dependsOn": [
+                "Git Add"
+            ]
+        },
+        {
+            "label": "Git Push",
+            "type": "shell",
+            "command": "git push",
+            "dependsOn": [
+                "Git Commit"
+            ]
+        },
     ]
 }
