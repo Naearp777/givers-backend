@@ -9,6 +9,7 @@ class Invitation(models.Model):
     event = models.ForeignKey(Events, on_delete=models.CASCADE)
     description = models.TextField(max_length=2000, blank=True, null=True)
     read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
         return f'{self.user}--{self.event}'
