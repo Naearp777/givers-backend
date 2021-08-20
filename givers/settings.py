@@ -68,8 +68,8 @@ DJANGO_REST_PASSWORDRESET_TOKEN_CONFIG = {
     "OPTIONS": {
         "min_length": 5,
         "max_length": 5,
-        "min_number": 5,
-        "max_number": 5,
+        "min_number": 1,
+        "max_number": 999,
     }
 }
 

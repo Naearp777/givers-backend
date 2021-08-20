@@ -11,5 +11,7 @@ urlpatterns = [
     path('api/users/search/', views.searchuser, name='search_user'),
     path('api/show/number/<int:E_id>/',
          views.show_number_approved_requested, name='approval_no'),
+    path('api/skills/search/<str:skill>',
+         views.search_by_skills, name='search_skills'),
 
 ]

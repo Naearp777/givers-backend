@@ -1,3 +1,4 @@
+from category.models import Skills
 from typing import Counter
 from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
@@ -9,7 +10,7 @@ from volunteer.models import requestevents
 from rest_framework import serializers, status
 from events.serializers import EventSerializer
 from customuser.serializers import UserSerializer
-from volunteer.serializers import requesteventSerializervolunteer
+from category.serializers import SkillSerializer
 # Create your views here.
 
 
@@ -86,4 +87,15 @@ def show_number_approved_requested(request, E_id):
                    "reviewed": reviewed_no, "requested": requested_no}
         return Response(message, status=status.HTTP_200_OK)
     except requestevents.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def search_by_skills(request, skill):
+    try:
+        skills_get = Skills.objects.filter(skills=skill)
+        serializer = SkillSerializer(skills_get, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Skills.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
