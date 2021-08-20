@@ -11,6 +11,7 @@ from rest_framework import serializers, status
 from events.serializers import EventSerializer
 from customuser.serializers import UserSerializer
 from category.serializers import SkillSerializer
+from rest_framework.generics import ListAPIView
 # Create your views here.
 
 
@@ -99,3 +100,10 @@ def search_by_skills(request, skill):
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Skills.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@permission_classes([IsAuthenticated])
+class advance_search(ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    filterset_fields = ['']  # add filter set here

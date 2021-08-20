@@ -13,5 +13,8 @@ urlpatterns = [
          views.show_number_approved_requested, name='approval_no'),
     path('api/skills/search/<str:skill>',
          views.search_by_skills, name='search_skills'),
+    path('api/advance_search/',
+         views.advance_search.as_view(), name='advance_search'),
+
 
 ]
