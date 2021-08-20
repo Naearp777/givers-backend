@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'customuser.apps.CustomuserConfig',
     'rest_framework',
+    'django_filters',
     'events.apps.EventsConfig',
     'authentication.apps.AuthenticationConfig',
     'rest_framework_simplejwt.token_blacklist',
