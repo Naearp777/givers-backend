@@ -1,13 +1,12 @@
 from category.models import Skills
-from typing import Counter
-from django.shortcuts import render
+
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from customuser.models import User
 from events.models import Events
 from volunteer.models import requestevents
-from rest_framework import serializers, status
+from rest_framework import  status
 from events.serializers import EventSerializer
 from customuser.serializers import UserSerializer
 from category.serializers import SkillSerializer

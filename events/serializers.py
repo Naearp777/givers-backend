@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from rest_framework.fields import ReadOnlyField
+
 
 from .models import Events
 from customuser.models import User

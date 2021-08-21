@@ -1,5 +1,5 @@
 # Create your views here.
-from django.shortcuts import render, get_object_or_404
+
 from .models import Events
 from .serializers import EventSerializer, EventupdateSerializer
 from rest_framework import status, generics

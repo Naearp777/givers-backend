@@ -4,7 +4,7 @@ from volunteer.models import requestevents
 from .serializer import RequestFormSerializer, approvalSerializer, requestedSerializer
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AND, IsAuthenticated
+from rest_framework.permissions import  IsAuthenticated
 from rest_framework.response import Response
 from customuser.models import User
 from events.models import Events

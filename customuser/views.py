@@ -1,4 +1,4 @@
-from .serializers import UserSerializer, UserresendotpSerializer, UserupdateSerializer
+from .serializers import UserSerializer,  UserupdateSerializer
 from .models import User
 from rest_framework import status, generics
 from rest_framework.decorators import api_view, permission_classes
@@ -9,7 +9,7 @@ import pyotp
 from django.core.mail.message import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.conf import settings
-from category.models import Skills
+
 
 # Create your views here.
 

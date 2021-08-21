@@ -1,4 +1,4 @@
-from django.shortcuts import render
+
 from customuser.models import User
 from rest_framework.response import Response
 from rest_framework import status

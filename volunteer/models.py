@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models.base import Model
 from customuser.models import User
 from events.models import Events
 # Create your models here.
