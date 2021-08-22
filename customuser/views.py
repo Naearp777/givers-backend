@@ -38,9 +38,7 @@ def registerUser(request):
             district=data['district'],
             municipality=data['municipality'],
             ward=data['ward'],
-            skills_1=data['skills_1'],
-            skills_2=data['skills_2'],
-            skills_3=data['skills_3'],
+            skills=data['skills'],
             address=data['address'],
             gender=data['gender'],
             phone=data['phone'],
@@ -57,7 +55,8 @@ def registerUser(request):
             active=data['active'],
             staff=data['staff'],
             verify=data['verify'],
-            reject=data['reject']
+            reject=data['reject'],
+            age=data['age']
 
         )
         user = User.objects.get(email=data['email'])

@@ -5,7 +5,6 @@ from django.contrib.auth.models import (
 )
 
 
-
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None):
         """
@@ -80,9 +79,8 @@ class User(AbstractBaseUser):
         default='avatar.jpg', upload_to='Identity')
     verify = models.BooleanField(default=False)
     reject = models.BooleanField(default=False)
-    skills_1 = models.CharField(max_length=255, null=True)
-    skills_2 = models.CharField(max_length=255, null=True)
-    skills_3 = models.CharField(max_length=255, null=True)
+    skills = models.CharField(max_length=255, null=True)
+    age = models.PositiveIntegerField(null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []  # Email & Password are required by default.
