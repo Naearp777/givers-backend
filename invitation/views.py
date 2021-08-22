@@ -45,7 +45,8 @@ def invite(request, U_id, E_id):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def invite_display_id(request, U_id):
-    invitation = Invitation.objects.filter(user_id=U_id)
+    invitation = Invitation.objects.filter(
+        user_id=U_id).order_by('-created_at')
     serializer = InvitationSerializer(invitation, many=True)
     return Response(serializer.data)
 

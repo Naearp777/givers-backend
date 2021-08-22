@@ -16,7 +16,7 @@ def category_event(request):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def skills(request):
     all_ward = Skills.objects.all()
     serializer = SkillSerializer(all_ward, many=True)

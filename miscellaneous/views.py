@@ -105,6 +105,9 @@ def search_by_skills(request, skill):
 class UserFilter(django_filters.FilterSet):
     skills = django_filters.CharFilter(
         field_name='skills', lookup_expr='contains')
+    age = django_filters.NumberFilter()
+    age__gt = django_filters.NumberFilter(field_name='age', lookup_expr='gt')
+    age__lt = django_filters.NumberFilter(field_name='age', lookup_expr='lt')
 
     class Meta:
         model = User

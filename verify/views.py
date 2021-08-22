@@ -83,3 +83,14 @@ def showspecificrequest(request, U_id):
         return Response(serializer.data, status=status.HTTP_200_OK)
     except User.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def showallvolunteer(request):
+    try:
+        user = User.objects.filter(admin=False, staff=False, volunteer=True)
+        serializer = UserSerializer(user, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
