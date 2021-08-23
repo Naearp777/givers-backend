@@ -111,7 +111,7 @@ class UserFilter(django_filters.FilterSet):
 
     class Meta:
         model = User
-        fields = ['province', 'district', 'municipality', 'ward', 'volunteer']
+        fields = ['province', 'district', 'municipality', 'ward','gender', 'volunteer',]
 
 
 @permission_classes([IsAuthenticated])
