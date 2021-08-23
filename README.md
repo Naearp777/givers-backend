@@ -60,6 +60,19 @@ Now the schema of various tables are setup in your newly created database. You c
 ```
 
 This will run a development server in localhost on port 8000. The development server will not be accessible on the LAN just now.
+### Email Notifications
+In order to send users E-mail notifications via E-mail. 
+
+First you need to create App password
+
+- Go to setting/security/app password from your Gmail settings
+
+Change the following Values in settings.py.
+```sh
+EMAIL_HOST_USER='YOUR_EMAIL'
+EMAIL_HOST_PASSWORD='YOUR_EMAIL_APPPASSWORD'
+```
+
 
 
 #### Project Members
