@@ -40,7 +40,7 @@ pip install -r requirements.txt
 To migrate the necessary changes to the newly created database run the following command.
 
 ```sh
-./manage.py migrate
+python manage.py migrate
 ```
 
 
@@ -48,7 +48,7 @@ To migrate the necessary changes to the newly created database run the following
 During the first time setup, the **superadmin user** should be created.
 
 ```sh
-./manage.py createsuperuser
+python manage.py createsuperuser
 ```
 
 ### Run Backend Server
@@ -56,16 +56,16 @@ During the first time setup, the **superadmin user** should be created.
 Now the schema of various tables are setup in your newly created database. You can now run the database server using the following command.
 
 ```sh
-./manage.py runserver
+python manage.py runserver
 ```
 
 This will run a development server in localhost on port 8000. The development server will not be accessible on the LAN just now.
 ### Email Notifications
-In order to send users E-mail notifications via E-mail. 
+In order to send users notifications via E-mail. 
 
 First you need to create App password
 
-- Go to setting/security/app password from your Gmail settings
+- Go to settings/security/app password from your Gmail settings
 
 Change the following Values in settings.py.
 ```sh
@@ -75,9 +75,9 @@ EMAIL_HOST_PASSWORD='YOUR_EMAIL_APPPASSWORD'
 
 
 
-#### Project Members
+### Project Members
 
--   **Arpan Pokharel** (075BCT015)
--   **Chirag Lamsal** (075BCT032)
--   **Bibek Basyal** (075BCT097)
--   **Saugat Kafley** (075BCT099)
+-   [**Arpan Pokharel** ](https://github.com/Naearp777/) (075BCT015)
+-   [ **Chirag Lamsal** ](https://github.com/chiraqL/) (075BCT032)
+-   [**Bibek Basyal**](https://github.com/Bibek99/) (075BCT097)
+-   [**Saugat Kafley**](https://github.com/Saugatkafley/) (075BCT099)
