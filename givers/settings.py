@@ -145,8 +145,8 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-# db_from_env = dj_database_url.config(conn_max_age=600)
-# DATABASES['default'].update(db_from_env)
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -218,25 +218,25 @@ CORS_ORIGIN_WHITELIST = (
 # --------------------------------**********--------------------------------
 
 
-DATABASES = {
+# DATABASES = {
 
-    'default': {
+#     'default': {
 
-        'ENGINE': 'django.db.backends.postgresql',
+#         'ENGINE': 'django.db.backends.postgresql',
 
-        'NAME': 'givers',
+#         'NAME': 'givers',
 
-        'USER': 'postgres',
+#         'USER': 'postgres',
 
-        'PASSWORD': 'admin',
+#         'PASSWORD': 'admin',
 
-        'HOST': 'localhost',
+#         'HOST': 'localhost',
 
-        'PORT': '5432',
+#         'PORT': '5432',
 
-    }
+#     }
 
-}
+# }
 
 
 # ----------------------------for debug only------------------------------------
@@ -245,9 +245,9 @@ DATABASES = {
 # comment line 135 and 136 (because it links to external database)
 # comment below codes
 
-# CLOUDINARY_STORAGE = {
-#     'CLOUD_NAME': os.environ.get('CLOUD_NAME'),
-#     'API_KEY': os.environ.get('API_KEY'),
-#     'API_SECRET': os.environ.get('API_SECRET')
-# }
-# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUD_NAME'),
+    'API_KEY': os.environ.get('API_KEY'),
+    'API_SECRET': os.environ.get('API_SECRET')
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
