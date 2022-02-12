@@ -27,13 +27,14 @@ def showrequest(request, E_id, V_id):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def approval(request, E_id, V_id):
     print(request.data)
     try:
         approval = requestevents.objects.get(user_id=V_id, event_id=E_id)
         approval.approved = request.data['approved']
         approval.pending = request.data['pending']
+        approval.task_assigned=request.data['task_assigned']
         approval.save()
         serializer = approvalSerializer(approval, many=False)
         event = Events.objects.get(id=E_id)
@@ -42,7 +43,7 @@ def approval(request, E_id, V_id):
         eventname = EventSerializer(event, many=False)
         if(serializer.data['approved'] == True):
             email_template = render_to_string('Approved.html', {
-                                              "event": eventname.data['name'], "username": user_name.data['username']})
+                                              "event": eventname.data['name'], "username": user_name.data['username'],"task":serializer.data['task_assigned']})
             approved = EmailMultiAlternatives(
                 "Approved",
                 "Approved",
