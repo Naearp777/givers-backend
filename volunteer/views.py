@@ -1,4 +1,3 @@
-from logging import exception
 from .models import interestedevents, requestevents
 from .serializers import interestedSerializervolunteer, requesteventSerializervolunteer
 from rest_framework import status
@@ -43,7 +42,7 @@ def requestevent(request, V_id, E_id):
             serializer = requesteventSerializervolunteer(requestevent, many=False)
 
             return Response(serializer.data)
-        except exception as e:
+        except Exception as e:
             return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
 
 
