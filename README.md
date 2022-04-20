@@ -1,6 +1,6 @@
 # Givers
-Givers is a Volunteer Management System developed as a part of college project for V Semester of Computer Engineering undergraduate program.
-This repo contains the backend source code for the **Volunteer Management** system. This was an academic project assigned by the [**Department of Electronics and Computer Engineering, Pulchowk Campus** ](http://doece.pcampus.edu.np/) under the subject _Software Engineering_.
+Givers is a Volunteer Management System developed as a part of college project for VI Semester of Computer Engineering undergraduate program.
+This repo contains the backend source code for the **Volunteer Management** system. This was an academic project assigned by the [**Department of Electronics and Computer Engineering, Pulchowk Campus** ](http://doece.pcampus.edu.np/) under the subject _Database Management System (DBMS)_.
 
 ## Technologies Used
 
