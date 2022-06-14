@@ -3,9 +3,9 @@ from .import views
 
 urlpatterns = [
 
-    path('api/validate/username/<str:username>',
+    path('username/<str:username>',
          views.validateusername, name='validate_username'),
-    path('api/validate/email/<str:email>',
+    path('email/<str:email>',
          views.validateemail, name='validate_email'),
 
 ]

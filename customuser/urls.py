@@ -2,14 +2,13 @@ from django.urls import path
 from .import views
 
 urlpatterns = [
-
-    path('api/register/user/', views.registerUser, name='register_user'),
-    path('api/register/verify/<int:id>/<int:otp>/',
+    path('register/user/', views.registerUser, name='register_user'),
+    path('register/verify/<int:id>/<int:otp>/',
          views.RegisterVerify, name='register_verify'),
-    path('api/register/verify/resend/<int:id>/',
+    path('register/verify/resend/<int:id>/',
          views.Resend_otp, name='resend_otp'),
-    path('api/user/update/<int:pk>/',
+    path('update/<int:pk>/',
          views.UserUpdate.as_view(), name='update_user'),
-    path('api/user/profile/<int:U_id>/',
+    path('profile/<int:U_id>/',
          views.get_User_Profile, name='get_user_profile'),
 ]
