@@ -60,6 +60,11 @@ python manage.py runserver
 ```
 
 This will run a development server in localhost on port 8000. The development server will not be accessible on the LAN just now.
+
+### Access API Documentation
+
+You can access the API documentation from the url : http://127.0.0.1:8000/swagger/ or BASE_URL/swagger/.
+
 ### Email Notifications
 In order to send users notifications via E-mail. 
 

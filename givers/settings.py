@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     "jet",
     "django.contrib.admin",
     "django.contrib.auth",
-    "cloudinary_storage",
+    #"cloudinary_storage",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
@@ -55,15 +55,19 @@ INSTALLED_APPS = [
     "category.apps.CategoryConfig",
     "miscellaneous.apps.MiscellaneousConfig",
     "verify.apps.VerifyConfig",
-    "cloudinary",
+    #"cloudinary",
     "invitation.apps.InvitationConfig",
+    "coreapi",
+    "drf_yasg",
 ]
+
 REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
 }
+
 DJANGO_REST_PASSWORDRESET_TOKEN_CONFIG = {
     "CLASS": "django_rest_passwordreset.tokens.RandomStringTokenGenerator",
     "OPTIONS": {
@@ -96,7 +100,9 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),
     "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
 }
+
 AUTH_USER_MODEL = "customuser.User"
+
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
@@ -240,9 +246,9 @@ CORS_ORIGIN_WHITELIST = (
 # comment line 135 and 136 (because it links to external database)
 # comment below codes
 
-CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": os.environ.get("CLOUD_NAME"),
-    "API_KEY": os.environ.get("API_KEY"),
-    "API_SECRET": os.environ.get("API_SECRET"),
-}
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+# CLOUDINARY_STORAGE = {
+#     "CLOUD_NAME": os.environ.get("CLOUD_NAME"),
+#     "API_KEY": os.environ.get("API_KEY"),
+#     "API_SECRET": os.environ.get("API_SECRET"),
+# }
+# DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
